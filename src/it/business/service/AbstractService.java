@@ -8,6 +8,8 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Simone Lungarella
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
  *         implementa tutto ciò di cui hanno bisogno i services
  */
 
+@Service
+@Component
 public abstract class AbstractService implements Serializable {
 
 	private static final long serialVersionUID = -2017286881829397007L;
