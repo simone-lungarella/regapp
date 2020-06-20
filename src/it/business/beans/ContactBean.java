@@ -21,19 +21,20 @@ import it.business.utils.ApplicationContextProvider;
  * @author Simone Lungarella
  * */
 
+//@Named("contactBean")
 @ManagedBean(name = "contactBean")
 @ViewScoped
 public class ContactBean {
 
 	private List<ContactDTO> users;
 	private List<ContactDTO> searchedUsers;
-	
+	private ContactDTO contactToRollBack;
 	private String contactTypeString;
 	private ContactDTO contact;
 	private ContactDTO selectedUser;
 	private ContactDTO searchedUser;
 	private List<ContactTypeEnum> types;
-
+	private boolean renderedDiagram = false;
 	
 	private IContactSRV contactSRV;
 
@@ -78,6 +79,26 @@ public class ContactBean {
 		}
 	}
 	
+	public void saveEditedContact() {
+		if(contact.getFirstName() != null && contact.getLastName() != null && contactTypeString!= null && contact.getContactId() != null) {
+				contact= new ContactDTO(contact.getContactId().toUpperCase(), contact.getFirstName(),  contact.getLastName(), ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
+				contactSRV.addContact(contact);
+				showInfoMessage("Utente modificato con successo");
+		}else if(contact.getFirstName().isEmpty()){
+			showInfoMessage("Il nome utente è obbligatorio");
+			contactSRV.addContact(contactToRollBack);
+		}else if(contact.getLastName().isEmpty()) {
+			showInfoMessage("Il cognome è obbligatorio");
+			contactSRV.addContact(contactToRollBack);
+		}else if(contact.getContactId().isEmpty()) {
+			showInfoMessage("Il codice fiscale è obbligatorio");
+			contactSRV.addContact(contactToRollBack);
+		}else if(contact.getContactId().length()!=16) {
+			showInfoMessage("Il codice fiscale deve avere una lunghezza di 16 caratteri");
+			contactSRV.addContact(contactToRollBack);
+		}
+	}
+	
 	private void loadUsers() {
 		users = contactSRV.findAll();
 	}
@@ -99,9 +120,9 @@ public class ContactBean {
 	}
 	
 	public void editContact() {
-		contact = new ContactDTO();
+		contactToRollBack = new ContactDTO(selectedUser);
 		contactSRV.removeContact(selectedUser.getContactId());
-		saveContact();
+		saveEditedContact();
 	}
 	
 	public void onRowSelect(SelectEvent event) {
@@ -117,7 +138,14 @@ public class ContactBean {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", msg));
 	}
 	
-
+	public void toggleDiagram() {
+		if(isRenderedDiagram())
+			setRenderedDiagram(false);
+		else
+			setRenderedDiagram(true);
+		System.out.println(renderedDiagram);
+	}
+	
 	public IContactSRV getContactSRV() {
 		return contactSRV;
 	}
@@ -181,6 +209,21 @@ public class ContactBean {
 	public void setSearchedUser(ContactDTO searchedUser) {
 		this.searchedUser = searchedUser;
 	}
-	
-	
+
+	public boolean isRenderedDiagram() {
+		return renderedDiagram;
+	}
+
+	public void setRenderedDiagram(boolean renderedDiagram) {
+		this.renderedDiagram = renderedDiagram;
+	}
+
+	public ContactDTO getContactToRollBack() {
+		return contactToRollBack;
+	}
+
+	public void setContactToRollBack(ContactDTO contactToRollBack) {
+		this.contactToRollBack = contactToRollBack;
+	}
+
 }

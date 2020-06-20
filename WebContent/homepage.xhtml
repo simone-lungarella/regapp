@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -19,13 +19,23 @@
 		<p:outputPanel id="header">
 		
 		</p:outputPanel>
+		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12, ui-grid-col-12 ui-fluid" layout="grid">		
+			
+			<p:outputPanel id="commands" >
+				<p:commandButton icon="fa fa-user-edit" value="UTENTI" action="users.xhtml" />
+				<p:commandButton icon="fa fa-table" value="DOMINI" />
+				<p:commandButton icon="fa fa-paperclip" value="CONTRATTI" />
+			
+			</p:outputPanel>	
+
+			<p:outputPanel id="diagramDB">
+				<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
+					<p:outputLabel value="Vista Database" />
+					<iframe width="560" height="315" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>					
+				</p:panelGrid>
+			</p:outputPanel>
 		
-		<p:outputPanel id="commands">
-			<p:commandButton value="Login" />
-			<p:commandButton value="Gestione utenti" action="users.xhtml" />
-		</p:outputPanel>	
-		
-		
+		</p:panelGrid>		
 	</h:form>
 </h:body>
 

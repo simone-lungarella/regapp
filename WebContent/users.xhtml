@@ -16,19 +16,16 @@
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 	<link rel = "stylesheet" type = "text/css" href = "./css/menuBar.css"/>
 	<h:form id="mainForm">
-			
 		
-		<p:panelGrid columns="5" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid">
-			<p:selectOneButton unselectable="false">
-				<f:selectItem itemValue ="U" itemLabel="U" />
-				<f:selectItem itemValue ="D" itemLabel="D"/>
-			</p:selectOneButton>
-			
- 			<p:commandButton value="Ricerca" icon ="fa fa-search" onclick="PF('searchDialog').show()"/>
-			<p:commandButton value="Creazione" icon = "fa fa-paint-brush" onclick="PF('createDialog').show()"/>
-			<p:commandButton value="Modifica" icon = "fa fa-wrench"  onclick="PF('editContactDialog').show()"/>
+		<center>
+		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid">
+			<p:commandButton value="Indietro" icon ="fa fa-arrow-left" action="homepage.xhtml"/>
+			<p:commandButton value="Ricerca" icon="fa fa-search" onclick="PF('searchDialog').show()"/>
+ 			<p:commandButton value="Creazione" icon = "fa fa-paint-brush" onclick="PF('createDialog').show()"/>
+			<p:commandButton value="Modifica" icon = "fa fa-edit"  onclick="PF('editContactDialog').show()"/>
 		</p:panelGrid>
-		
+		</center>
+				
 		<p:dialog header="Cerca Contatto" widgetVar="searchDialog" resizable = "false" modal="true" style="min-height:500px;">
 			<h:form id="searchForm">
 				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
@@ -48,7 +45,9 @@
 				</p:panelGrid>
 				<p:separator/>
 					<center>
-						<p:commandButton icon="fa fa-search" value = "Cerca" actionListener="#{contactBean.loadSearchedUsers}" process="@this:searchForm" update="dtUsers"/>
+						<p:commandButton icon="fa fa-search" value = "Cerca" actionListener="#{contactBean.loadSearchedUsers}" process="@this:searchForm">
+							<p:ajax event ="click" update=":mainForm:dtUsers"/>
+						</p:commandButton>
 						<p:commandButton icon="fa fa-close" value="Chiudi" onclick="PF('searchDialog').hide();" />
 					</center>
 			</h:form>

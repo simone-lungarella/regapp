@@ -16,5 +16,5 @@
         http://www.springframework.org/schema/jee/spring-jee-4.3.xsd">
         
 	<jee:jndi-lookup id="DataSource" jndi-name="jdbc/dnsentities" expected-type="javax.sql.DataSource"/>
-	<context:component-scan base-package="it" />
+	<context:component-scan base-package="it.business" />
 </beans>
