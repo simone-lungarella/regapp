@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.SelectEvent;
+
 import it.business.dto.ContactDTO;
 import it.business.enums.ContactTypeEnum;
 import it.business.service.ContactSRV;
@@ -23,16 +25,16 @@ import it.business.utils.ApplicationContextProvider;
 @ViewScoped
 public class ContactBean {
 
-	private String contactId;
-	private String firstName;
-	private String lastName;
 	private List<ContactDTO> users;
+	private List<ContactDTO> searchedUsers;
 	
 	private String contactTypeString;
 	private ContactDTO contact;
 	private ContactDTO selectedUser;
+	private ContactDTO searchedUser;
 	private List<ContactTypeEnum> types;
 
+	
 	private IContactSRV contactSRV;
 
 	@PostConstruct
@@ -40,6 +42,9 @@ public class ContactBean {
 		contactSRV = ApplicationContextProvider.getApplicationContext().getBean(ContactSRV.class);
 		loadContactTypes();
 		loadUsers();
+		searchedUsers = new ArrayList<>();
+		searchedUser = new ContactDTO();
+		contact = new ContactDTO();
 	}
 
 	/**
@@ -53,8 +58,8 @@ public class ContactBean {
 	}
 
 	public void saveContact() {
-		if(firstName != null && lastName != null && contactTypeString!= null && contactId != null) {
-			contact= new ContactDTO(contactId.toUpperCase(), firstName, lastName, ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
+		if(contact.getFirstName() != null && contact.getLastName() != null && contactTypeString!= null && contact.getContactId() != null) {
+			contact= new ContactDTO(contact.getContactId().toUpperCase(), contact.getFirstName(),  contact.getLastName(), ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
 			if(users.contains(contact)) {
 				showInfoMessage("Un utente con l'identificativo scelto già esiste.");
 			}else {
@@ -62,13 +67,13 @@ public class ContactBean {
 				showInfoMessage("Utente creato con successo");
 			}
 		}
-		else if(firstName.isEmpty()){
+		else if(contact.getFirstName().isEmpty()){
 			showInfoMessage("Il nome utente è obbligatorio");
-		}else if(lastName.isEmpty()) {
+		}else if(contact.getLastName().isEmpty()) {
 			showInfoMessage("Il cognome è obbligatorio");
-		}else if(contactId.isEmpty()) {
+		}else if(contact.getContactId().isEmpty()) {
 			showInfoMessage("Il codice fiscale è obbligatorio");
-		}else if(contactId.length()!=16) {
+		}else if(contact.getContactId().length()!=16) {
 			showInfoMessage("Il codice fiscale deve avere una lunghezza di 16 caratteri");
 		}
 	}
@@ -77,8 +82,32 @@ public class ContactBean {
 		users = contactSRV.findAll();
 	}
 	
-	private void editContact() {
-		//TODO: completare metodo
+	public void loadSearchedUsers() {
+		if(searchedUser.getContactId() != "") {
+			searchedUsers.add(contactSRV.findById(searchedUser.getContactId()));
+		}else if(searchedUser.getFirstName() != "") {
+			searchedUsers = contactSRV.findByFirstName(searchedUser.getFirstName());
+		}else if(searchedUser.getLastName() != "") {
+			searchedUsers = contactSRV.findByLastName(searchedUser.getLastName());
+		}else if(ContactTypeEnum.valueOf(contactTypeString) != null) {
+			searchedUsers = contactSRV.findByContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
+		}
+	}
+	
+	public void print()	{
+		System.out.println("print");
+	}
+	
+	public void editContact() {
+		contact = new ContactDTO();
+		contactSRV.removeContact(selectedUser.getContactId());
+		saveContact();
+	}
+	
+	public void onRowSelect(SelectEvent event) {
+		selectedUser = (ContactDTO) event.getObject();
+		selectedUser.setContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
+		contact = new ContactDTO(selectedUser);
 	}
 	
 	/**
@@ -88,29 +117,6 @@ public class ContactBean {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", msg));
 	}
 	
-	public String getContactId() {
-		return contactId;
-	}
-
-	public void setContactId(String contactId) {
-		this.contactId = contactId;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	public IContactSRV getContactSRV() {
 		return contactSRV;
@@ -126,13 +132,6 @@ public class ContactBean {
 
 	public void setContact(ContactDTO contact) {
 		this.contact = contact;
-	}
-
-	public void setContact(String id, String firstName, String lastName, ContactTypeEnum contactType) {
-		this.contact.setContactId(id);
-		this.contact.setFirstName(firstName);
-		this.contact.setLastName(lastName);
-		this.contact.setContactType(contactType);
 	}
 
 	public String getContactTypeString() {
@@ -166,5 +165,22 @@ public class ContactBean {
 	public void setSelectedUser(ContactDTO selectedUser) {
 		this.selectedUser = selectedUser;
 	}
+
+	public List<ContactDTO> getSearchedUsers() {
+		return searchedUsers;
+	}
+
+	public void setSearchedUsers(List<ContactDTO> searchedUsers) {
+		this.searchedUsers = searchedUsers;
+	}
+
+	public ContactDTO getSearchedUser() {
+		return searchedUser;
+	}
+
+	public void setSearchedUser(ContactDTO searchedUser) {
+		this.searchedUser = searchedUser;
+	}
+	
 	
 }

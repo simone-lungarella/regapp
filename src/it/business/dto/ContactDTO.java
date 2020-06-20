@@ -25,6 +25,13 @@ public class ContactDTO {
 		setLastName(lastName);
 		setContactType(contactType);
 	}
+	
+	public ContactDTO(ContactDTO contactCopy) {
+		setContactId(contactCopy.getContactId());
+		setFirstName(contactCopy.getFirstName());
+		setLastName(contactCopy.getLastName());
+		setContactType(contactCopy.getContactType());
+	}
 
 	public String getContactId() {
 		return contactId;

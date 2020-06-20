@@ -15,116 +15,16 @@
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 	<link rel = "stylesheet" type = "text/css" href = "./css/menuBar.css"/>
-	<h:form>
-			
+	<h:form id="mainForm">
+		<p:outputPanel id="header">
 		
-		<p:panelGrid columns="5" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid">
-			<p:selectOneButton unselectable="false">
-				<f:selectItem itemValue ="U" itemLabel="U" />
-				<f:selectItem itemValue ="D" itemLabel="D"/>
-			</p:selectOneButton>
-			
+		</p:outputPanel>
+		
+		<p:outputPanel id="commands">
 			<p:commandButton value="Login" />
- 			<p:commandButton value="Ricerca" icon ="fa fa-search" onclick="PF('searchDialog').show()"/>
-			<p:commandButton value="Creazione" icon = "fa fa-paint-brush" onclick="PF('createDialog').show()"/>
-			<p:commandButton value="Modifica" icon = "fa fa-wrench" onclick="PF('editContactDialog').show()"/>
-		</p:panelGrid>
+			<p:commandButton value="Gestione utenti" action="users.xhtml" />
+		</p:outputPanel>	
 		
-		<p:dialog header="Cerca dominio" widgetVar="searchDialog" resizable = "false" modal="true" style="widht:33%;height:30%;">
-			<h:form id="saveForm">
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid">
-					<p:outputLabel value="Registrar" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid">
-					<p:outputLabel value="Registrant" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-2">
-					<p:outputLabel value = "DNSSEC"/>
-					<p:selectBooleanCheckbox/>
-				</p:panelGrid>
-				<p:separator/>
-				<p:outputPanel>
-					<center>
-						<p:commandButton value = "Cerca" actionListener="#{contactBean.print}" process="@this" oncomplete="PF('searchDialog').hide();"/>
-						<p:commandButton value="Chiudi" onclick="PF('searchDialog').hide();"/>
-					</center>
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
-		
-		<p:dialog header="Crea contatto" widgetVar="createDialog" resizable = "false" modal="true">
-			<h:form id="saveContactForm">
-				<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
-				
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText id="firstNameInput" value="#{contactBean.firstName}" />
-					<p:outputLabel value = "Cognome"/>
-					<p:inputText value="#{contactBean.lastName}" />
-				</p:panelGrid>
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-					<p:outputLabel value="Codice fiscale" />
-					<p:inputText value="#{contactBean.contactId}" />
-					<p:outputLabel value="Tipo del contatto" />
-					<p:selectOneMenu value="#{contactBean.contactTypeString}" >
-						<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
-					</p:selectOneMenu>
-					
-				</p:panelGrid>
-				<p:separator/>
-				<center>
-					<p:commandButton value="Chiudi" onclick="PF('createDialog').hide();"/>
-					<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this:saveContactForm" update="@form" value="Salva" icon="fa fa-save" oncomplete="PF('createDialog').hide();"/>				
-				</center>
-			</h:form>
-		</p:dialog>
-		
-		<p:dialog header="Modifica contatto" widgetVar="editContactDialog" modal="true" style="min-width:1000px;min-height:500px;max-height:500px;">
-			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
-
-				<p:outputPanel> 
-					<p:dataTable value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="user.contactId" rows="8" paginatorPosition="bottom" >
-        				<p:column headerText="Utenti esistenti">
-        					<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}"></h:outputText>
-        				</p:column>
-   				 	</p:dataTable>
-				</p:outputPanel>
-				<h:form id="editContactForm">
-					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
-				
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-						<p:outputLabel value="Nome" />
-						<p:inputText id="firstNameInput" value="#{contactBean.firstName}" />
-						<p:outputLabel value = "Cognome"/>
-						<p:inputText value="#{contactBean.lastName}" />
-					</p:panelGrid>
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-						<p:outputLabel value="Codice fiscale" />
-						<p:inputText value="#{contactBean.contactId}" />
-						<p:outputLabel value="Tipo del contatto" />
-						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
-							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
-						</p:selectOneMenu>
-					
-					</p:panelGrid>
-					<p:separator style="visibility:hidden;"/>
-					<p:separator/>
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid, ui-grid-col-4 ui-fluid">
-						<h:panelGroup />
-						<p:commandButton icon="fa fa-close" value="Chiudi" onclick="PF('editContactDialog').hide();"/>
-						<p:commandButton actionListener="#{contactBean.editContact}" process="@this:editContactForm" update="@form" value="Modifica" icon="fa fa-edit" oncomplete="PF('editContactDialog').hide();"/>				
-						<h:panelGroup />
-					</p:panelGrid>
-				</h:form>
-				
-			</p:panelGrid>
-		</p:dialog>
 		
 	</h:form>
 </h:body>
