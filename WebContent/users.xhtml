@@ -10,135 +10,123 @@
 	
 </h:head>
 
-<h:body>
+<h:body style="background-image:url('image/bg.jpeg');background-size:cover;background-position: center;">
 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
-	<link rel = "stylesheet" type = "text/css" href = "./css/menuBar.css"/>
+	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
+	
 	<h:form id="mainForm">
-		
-		<center>
-		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid">
-			<p:commandButton value="Indietro" icon ="fa fa-arrow-left" action="homepage.xhtml"/>
-			<p:commandButton value="Ricerca" icon="fa fa-search" onclick="PF('searchDialog').show()"/>
- 			<p:commandButton value="Creazione" icon = "fa fa-paint-brush" onclick="PF('createDialog').show()"/>
-			<p:commandButton value="Modifica" icon = "fa fa-edit"  onclick="PF('editContactDialog').show()"/>
-		</p:panelGrid>
-		</center>
-				
-		<p:dialog header="Cerca Contatto" widgetVar="searchDialog" resizable = "false" modal="true" style="min-height:500px;">
-			<h:form id="searchForm">
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText value="#{contactBean.searchedUser.firstName}" />
-					<p:outputLabel value="Cognome" />
-					<p:inputText value="#{contactBean.searchedUser.lastName}" />
-				</p:panelGrid>
-				
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
-					<p:outputLabel value="Codice fiscale" />
-					<p:inputText  value="#{contactBean.searchedUser.contactId}"/>
-					<p:outputLabel value="Tipo contatto"/>
-					<p:selectOneMenu value="#{contactBean.contactTypeString}" >
-						<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
-					</p:selectOneMenu>
-				</p:panelGrid>
-				<p:separator/>
-					<center>
-						<p:commandButton icon="fa fa-search" value = "Cerca" actionListener="#{contactBean.loadSearchedUsers}" process="@this:searchForm">
-							<p:ajax event ="click" update=":mainForm:dtUsers"/>
-						</p:commandButton>
-						<p:commandButton icon="fa fa-close" value="Chiudi" onclick="PF('searchDialog').hide();" />
-					</center>
-			</h:form>
-			<p:separator/>
-			<p:outputPanel>
-				<p:dataTable headerText="Risultati ricerca" rendered="#{not empty contactBean.searchedUsers}" id="dtUsers" value="#{contactBean.searchedUsers}" var="user" paginator="true" rows="5" paginatorPosition="bottom" >
-        			<p:column style="text-align:center;" headerText="Nome">
-        				<h:outputText value="#{user.firstName}" />
-        			</p:column>
-        			<p:column style="text-align:center;" headerText="Cognome">
-        				<h:outputText value="#{user.lastName}"/>
-        			</p:column>
-        			<p:column style="text-align:center;" headerText="Codice fiscale">
-        				<h:outputText value="#{user.contactId}" />
-        			</p:column>
-        			<p:column style="text-align:center;" headerText="Tipo contatto">
-        				<h:outputText value="#{user.contactType}" />
-        			</p:column>
-   				</p:dataTable>
-			</p:outputPanel>
-		</p:dialog>
-		
-		<p:dialog header="Crea contatto" widgetVar="createDialog" resizable = "false" modal="true">
-			<h:form id="saveContactForm">
-				<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
-				
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText id="firstNameInput" value="#{contactBean.contact.firstName}" />
-					<p:outputLabel value = "Cognome"/>
-					<p:inputText value="#{contactBean.contact.lastName}" />
-				</p:panelGrid>
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-					<p:outputLabel value="Codice fiscale" />
-					<p:inputText value="#{contactBean.contact.contactId}" />
-					<p:outputLabel value="Tipo del contatto" />
-					<p:selectOneMenu value="#{contactBean.contactTypeString}" >
-						<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
-					</p:selectOneMenu>
+		<br style="visibility:hidden;"/>
+		<p:tabView style="height:500px;" id="cmds">
+    	    
+    	    <p:tab title="Ricerca">
+				<h:form id="searchForm">
+					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 					
-				</p:panelGrid>
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
+						<p:outputLabel value="Nome" />
+						<p:inputText value="#{contactBean.searchedUser.firstName}" />
+						<p:outputLabel value="Cognome" />
+						<p:inputText value="#{contactBean.searchedUser.lastName}" />
+					</p:panelGrid>
+				
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
+						<p:outputLabel value="Codice fiscale" />
+						<p:inputText  value="#{contactBean.searchedUser.contactId}"/>
+						<p:outputLabel value="Tipo contatto"/>
+						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
+							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<br style="visibility:hidden;"/>
+					<center>
+						<p:commandButton id="searchButton" actionListener="#{contactBean.loadSearchedUsers}" process="@this" value="Cerca" icon="fa fa-search" update="mainForm:cmds:searchForm"/>				
+					</center>
+				</h:form>
 				<p:separator/>
-				<center>
-					<p:commandButton icon="fa fa-close" value="Chiudi" onclick="PF('createDialog').hide();"/>
-					<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this:saveContactForm" value="Salva" icon="fa fa-save" oncomplete="PF('createDialog').hide();"/>				
-				</center>
-			</h:form>
-		</p:dialog>
-		
-		<p:dialog header="Modifica contatto" widgetVar="editContactDialog" modal="true" style="min-width:1000px;min-height:500px;max-height:500px;">
-			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
-
-				<p:outputPanel> 
-					<p:dataTable id="dtContacts" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
-        				<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="@form:editContactForm" />
-        				<p:column headerText="Utenti esistenti">
-        					<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
+				<p:outputPanel>
+					<p:dataTable headerText="Risultati ricerca" rendered="#{not empty contactBean.searchedUsers}" id="dtUsers" value="#{contactBean.searchedUsers}" var="user" paginator="true" rows="5" paginatorPosition="bottom" >
+        				<p:column style="text-align:center;" headerText="Nome">
+        					<h:outputText value="#{user.firstName}" />
         				</p:column>
-   				 	</p:dataTable>
+        				<p:column style="text-align:center;" headerText="Cognome">
+        					<h:outputText value="#{user.lastName}"/>
+        				</p:column>
+        				<p:column style="text-align:center;" headerText="Codice fiscale">
+        					<h:outputText value="#{user.contactId}" />
+        				</p:column>
+        				<p:column style="text-align:center;" headerText="Tipo contatto">
+        					<h:outputText value="#{user.contactType}" />
+        				</p:column>
+   					</p:dataTable>
 				</p:outputPanel>
-				<h:form id="editContactForm">
+        	</p:tab>
+        	<p:tab title="Creazione">
+				<h:form id="saveContactForm">
 					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 				
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
 						<p:outputLabel value="Nome" />
-						<p:inputText placeholder="#{contactBean.selectedUser.firstName}" id="firstNameInput" value="#{contactBean.contact.firstName}" />
+						<p:inputText id="firstNameInput" value="#{contactBean.contact.firstName}" />
 						<p:outputLabel value = "Cognome"/>
-						<p:inputText placeholder="#{contactBean.selectedUser.lastName}" value="#{contactBean.contact.lastName}" />
+						<p:inputText value="#{contactBean.contact.lastName}" />
 					</p:panelGrid>
+					
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
 						<p:outputLabel value="Codice fiscale" />
-						<p:inputText placeholder="#{contactBean.selectedUser.contactId}" value="#{contactBean.contact.contactId}" />
+						<p:inputText value="#{contactBean.contact.contactId}" />
 						<p:outputLabel value="Tipo del contatto" />
 						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
 							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
 						</p:selectOneMenu>
+					</p:panelGrid>
 					
-					</p:panelGrid>
-					<p:separator style="visibility:hidden;"/>
 					<p:separator/>
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid, ui-grid-col-4 ui-fluid">
-						<h:panelGroup />
-						<p:commandButton icon="fa fa-close" value="Chiudi" onclick="PF('editContactDialog').hide();"/>
-						<p:commandButton actionListener="#{contactBean.editContact}" process="@this:editContactForm" update="@form" value="Modifica" icon="fa fa-edit" oncomplete="PF('editContactDialog').hide();"/>				
-						<h:panelGroup />
-					</p:panelGrid>
+					<center>
+						<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this:saveContactForm" value="Salva" icon="fa fa-save" update="mainForm:cmds:saveContactForm, mainForm:cmds:dtContacts"/>				
+					</center>
 				</h:form>
+        	</p:tab>
+        	
+        	<p:tab title="Modifica">
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
+
+					<p:outputPanel> 
+						<p:dataTable id="dtContacts" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
+        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="mainForm:cmds:editContactForm"/>
+        					<p:column headerText="Utenti esistenti">
+        						<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
+        					</p:column>
+   				 		</p:dataTable>
+					</p:outputPanel>
+					<h:form id="editContactForm">
+						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 				
-			</p:panelGrid>
-		</p:dialog>
-		
+						<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+							<p:outputLabel value="Nome" />
+							<p:inputText placeholder="#{contactBean.selectedUser.firstName}" id="firstNameInput" value="#{contactBean.contact.firstName}" />
+							<p:outputLabel value = "Cognome"/>
+							<p:inputText placeholder="#{contactBean.selectedUser.lastName}" value="#{contactBean.contact.lastName}" />
+						</p:panelGrid>
+						<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+							<p:outputLabel value="Codice fiscale" />
+							<p:inputText placeholder="#{contactBean.selectedUser.contactId}" value="#{contactBean.contact.contactId}" />
+							<p:outputLabel value="Tipo del contatto" />
+							<p:selectOneMenu value="#{contactBean.contactTypeString}" >
+								<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
+							</p:selectOneMenu>
+					
+						</p:panelGrid>
+						<p:separator style="visibility:hidden;"/>
+						<p:separator/>
+						<center>
+							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" process="@this:editContactForm" update="@form" value="Modifica" icon="fa fa-save" />				
+						</center>
+					</h:form>
+				</p:panelGrid>
+        	</p:tab>
+   		</p:tabView>
 	</h:form>
 </h:body>
 

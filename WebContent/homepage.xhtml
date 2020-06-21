@@ -10,31 +10,27 @@
 	
 </h:head>
 
-<h:body>
+<h:body style="background-image:url('image/bg.jpeg');background-size:cover;background-position: center;">
 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
-	<link rel = "stylesheet" type = "text/css" href = "./css/menuBar.css"/>
+	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
 	<h:form id="mainForm">
-		<p:outputPanel id="header">
-		
-		</p:outputPanel>
-		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12, ui-grid-col-12 ui-fluid" layout="grid">		
-			
-			<p:outputPanel id="commands" >
+		<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid" layout="grid">		
 				<p:commandButton icon="fa fa-user-edit" value="UTENTI" action="users.xhtml" />
-				<p:commandButton icon="fa fa-table" value="DOMINI" />
-				<p:commandButton icon="fa fa-paperclip" value="CONTRATTI" />
-			
-			</p:outputPanel>	
-
+				<p:commandButton style="width:480px;" icon="fa fa-th-large" value="DOMINI" />
+				<p:commandButton style="width:480px;" icon="fa fa-file" value="CONTRATTI" />
+		</p:panelGrid>
+		<br/><br/>
+		<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid" layout="grid">		
+			<p:outputPanel></p:outputPanel>
 			<p:outputPanel id="diagramDB">
 				<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
 					<p:outputLabel value="Vista Database" />
-					<iframe width="560" height="315" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>					
+					<iframe width="560" height="315" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
 				</p:panelGrid>
 			</p:outputPanel>
-		
+			<p:outputPanel></p:outputPanel>
 		</p:panelGrid>		
 	</h:form>
 </h:body>

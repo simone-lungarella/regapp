@@ -53,19 +53,30 @@ public class ContactBean {
 	 * */
 	private void loadContactTypes() {
 		types = new ArrayList<ContactTypeEnum>();
+		ContactTypeEnum currType = null;
+		if(contactTypeString != null && !contactTypeString.isEmpty()) {
+			currType = ContactTypeEnum.valueOf(contactTypeString);
+			types.add(currType);
+		}
 		for (ContactTypeEnum type : ContactTypeEnum.values()) {
-			types.add(type);
+			if(type!=currType)
+				types.add(type);
 		}
 	}
 
 	public void saveContact() {
-		if(contact.getFirstName() != null && contact.getLastName() != null && contactTypeString!= null && contact.getContactId() != null) {
-			contact= new ContactDTO(contact.getContactId().toUpperCase(), contact.getFirstName(),  contact.getLastName(), ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
-			if(users.contains(contact)) {
-				showInfoMessage("Un utente con l'identificativo scelto già esiste.");
+		if(!contact.getFirstName().isEmpty() && !contact.getLastName().isEmpty() && !contactTypeString.isEmpty() && !contact.getContactId().isEmpty()) {
+			if(contact.getContactId().length() == 16) {
+				contact= new ContactDTO(contact.getContactId().toUpperCase(), contact.getFirstName(),  contact.getLastName(), ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
+				if(users.contains(contact)) {
+					showInfoMessage("Un utente con l'identificativo scelto già esiste.");
+				}else {
+					contactSRV.addContact(contact);
+					showInfoMessage("Utente creato con successo");
+					loadUsers();
+				}
 			}else {
-				contactSRV.addContact(contact);
-				showInfoMessage("Utente creato con successo");
+				showInfoMessage("Il codice fiscale deve avere una lunghezza di 16 caratteri");
 			}
 		}
 		else if(contact.getFirstName().isEmpty()){
@@ -80,10 +91,13 @@ public class ContactBean {
 	}
 	
 	public void saveEditedContact() {
-		if(contact.getFirstName() != null && contact.getLastName() != null && contactTypeString!= null && contact.getContactId() != null) {
+		if(!contact.getFirstName().isEmpty() && !contact.getLastName().isEmpty() && !contactTypeString.isEmpty() && !contact.getContactId().isEmpty()) {
+			if(contact.getContactId().length() == 16) {
 				contact= new ContactDTO(contact.getContactId().toUpperCase(), contact.getFirstName(),  contact.getLastName(), ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
 				contactSRV.addContact(contact);
-				showInfoMessage("Utente modificato con successo");
+				showInfoMessage("Utente modificato correttamente");
+			}else showInfoMessage("Il codice fiscale deve avere una lunghezza di 16 caratteri");
+			
 		}else if(contact.getFirstName().isEmpty()){
 			showInfoMessage("Il nome utente è obbligatorio");
 			contactSRV.addContact(contactToRollBack);
@@ -123,12 +137,15 @@ public class ContactBean {
 		contactToRollBack = new ContactDTO(selectedUser);
 		contactSRV.removeContact(selectedUser.getContactId());
 		saveEditedContact();
+		loadUsers();
 	}
 	
 	public void onRowSelect(SelectEvent event) {
 		selectedUser = (ContactDTO) event.getObject();
-		selectedUser.setContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
+//		selectedUser.setContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
 		contact = new ContactDTO(selectedUser);
+		contactTypeString = contact.getContactType().toString();
+		loadContactTypes();
 	}
 	
 	/**

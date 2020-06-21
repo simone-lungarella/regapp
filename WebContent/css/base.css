@@ -1,0 +1,28 @@
+.lightBg{
+	background-color: blue;
+}
+
+table.dataTable tbody tr.selected {
+    color: black!important;
+    background-color: #eeeeee;
+}
+
+.buttonsLayout{
+	/*padding-right: 4%;*/
+	margin-bottom: 8px;
+	text-align:center;
+	
+}
+
+.bg {
+  /* The image used */
+  background-image: url();
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
