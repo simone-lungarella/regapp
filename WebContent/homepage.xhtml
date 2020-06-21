@@ -10,7 +10,7 @@
 	
 </h:head>
 
-<h:body style="background-image:url('image/bg.jpeg');background-size:cover;background-position: center;">
+<h:body style="background-image:url('image/download.png');">
 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
@@ -21,18 +21,19 @@
 				<p:commandButton style="width:480px;" icon="fa fa-th-large" value="DOMINI" />
 				<p:commandButton style="width:480px;" icon="fa fa-file" value="CONTRATTI" />
 		</p:panelGrid>
-		<br/><br/>
-		<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid" layout="grid">		
+		<br/><br/><br/>
+		<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3 ui-fluid, ui-grid-col-6 ui-fluid ,ui-grid-col-3 ui-fluid" layout="grid">		
 			<p:outputPanel></p:outputPanel>
 			<p:outputPanel id="diagramDB">
 				<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
-					<p:outputLabel value="Vista Database" />
-					<iframe width="560" height="315" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
+					<iframe width="760" height="515" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
 				</p:panelGrid>
 			</p:outputPanel>
 			<p:outputPanel></p:outputPanel>
 		</p:panelGrid>		
 	</h:form>
+	<p:outputPanel style="width:100%;heigth:100px;background-color:grey;"> REGAPP by Simone Lungarella </p:outputPanel>
+	
 </h:body>
 
 </html>

@@ -118,11 +118,11 @@ public class ContactBean {
 	}
 	
 	public void loadSearchedUsers() {
-		if(searchedUser.getContactId() != "") {
+		if(!searchedUser.getContactId().isEmpty()) {
 			searchedUsers.add(contactSRV.findById(searchedUser.getContactId()));
-		}else if(searchedUser.getFirstName() != "") {
+		}else if(!searchedUser.getFirstName().isEmpty()) {
 			searchedUsers = contactSRV.findByFirstName(searchedUser.getFirstName());
-		}else if(searchedUser.getLastName() != "") {
+		}else if(!searchedUser.getLastName().isEmpty()) {
 			searchedUsers = contactSRV.findByLastName(searchedUser.getLastName());
 		}else if(ContactTypeEnum.valueOf(contactTypeString) != null) {
 			searchedUsers = contactSRV.findByContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
