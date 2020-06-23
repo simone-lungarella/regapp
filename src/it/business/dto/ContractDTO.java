@@ -1,55 +1,61 @@
 package it.business.dto;
 
-
 /**
  * @author Simone Lungarella
  * 
- * DTO per la gestione dell'entità CONTRACT, questo DTO aiuta a gestire la relazione tra contatti e domini, sul DB è salvata nella tabella CONTRACTS 
- * e permette di trasferire le informazioni dallo strato di persistenza al business al front-end
- * */
+ *         DTO per la gestione dell'entità CONTRACT, questo DTO aiuta a gestire
+ *         la relazione tra contatti e domini, sul DB è salvata nella tabella
+ *         CONTRACTS e permette di trasferire le informazioni dallo strato di
+ *         persistenza al business al front-end
+ */
 
 public class ContractDTO {
-	private ContactDTO registrar;
-	private ContactDTO registrant;
-	private ContactDTO admin;
-	private DomainDTO domainName;
-	
+	private String registrar;
+	private String registrant;
+	private String admin;
+	private String domain;
+
 	public ContractDTO() {
 		this(null, null, null, null);
 	}
-	
-	public ContractDTO(ContactDTO registrar, ContactDTO registrant, ContactDTO admin, DomainDTO domainName) {
+
+	public ContractDTO(String registrar, String registrant, String admin, String domain) {
 		setRegistrar(registrar);
 		setRegistrant(registrant);
 		setAdmin(admin);
-		setDomainName(domainName);
+		setDomain(domain);
 	}
-	
-	public ContactDTO getRegistrar() {
+
+	public String getRegistrar() {
 		return registrar;
 	}
-	public void setRegistrar(ContactDTO registrar) {
+
+	public void setRegistrar(String registrar) {
 		this.registrar = registrar;
 	}
-	public ContactDTO getRegistrant() {
+
+	public String getRegistrant() {
 		return registrant;
 	}
-	public void setRegistrant(ContactDTO registrant) {
+
+	public void setRegistrant(String registrant) {
 		this.registrant = registrant;
 	}
-	public ContactDTO getAdmin() {
+
+	public String getAdmin() {
 		return admin;
 	}
-	public void setAdmin(ContactDTO admin) {
+
+	public void setAdmin(String admin) {
 		this.admin = admin;
 	}
 
-	public DomainDTO getDomainName() {
-		return domainName;
+	public String getDomain() {
+		return domain;
 	}
 
-	public void setDomainName(DomainDTO domainName) {
-		this.domainName = domainName;
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
-	
+
 }

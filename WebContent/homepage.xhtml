@@ -16,23 +16,34 @@
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
 	<h:form id="mainForm">
-		<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid" layout="grid">		
-				<p:commandButton icon="fa fa-user-edit" value="UTENTI" action="users.xhtml" />
+		<center>
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid" layout="grid">		
+				<p:commandButton style="width:480px;" icon="fa fa-user-edit" value="UTENTI" action="users.xhtml" />
 				<p:commandButton style="width:480px;" icon="fa fa-th-large" value="DOMINI" />
 				<p:commandButton style="width:480px;" icon="fa fa-file" value="CONTRATTI" />
-		</p:panelGrid>
+			</p:panelGrid>
+		</center>
+		
 		<br/><br/><br/>
-		<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3 ui-fluid, ui-grid-col-6 ui-fluid ,ui-grid-col-3 ui-fluid" layout="grid">		
-			<p:outputPanel></p:outputPanel>
-			<p:outputPanel id="diagramDB">
-				<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
-					<iframe width="760" height="515" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
-				</p:panelGrid>
-			</p:outputPanel>
-			<p:outputPanel></p:outputPanel>
-		</p:panelGrid>		
+		
+		<center>
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3 ui-fluid, ui-grid-col-6 ui-fluid ,ui-grid-col-3 ui-fluid" layout="grid">		
+				<p:outputPanel></p:outputPanel>
+				<p:outputPanel id="diagramDB">
+					<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
+						<iframe width="760" height="515" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:panelGrid>
+		</center>
+				
 	</h:form>
-	<p:outputPanel style="width:100%;heigth:100px;background-color:grey;"> REGAPP by Simone Lungarella </p:outputPanel>
+	<center>
+		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;float:bottom;"> 
+			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
+		</p:outputPanel>
+	</center>
+	
 	
 </h:body>
 
