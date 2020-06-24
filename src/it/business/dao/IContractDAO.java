@@ -11,12 +11,19 @@ import it.business.dto.ContractDTO;
  * 
  */
 
-public interface IContractDAO extends Serializable{
+public interface IContractDAO extends Serializable {
 	ContractDTO findByContractNumber(Connection connection, int contractNumber);
+
 	List<ContractDTO> findByRegistrar(Connection connection, String idRegistrar);
+
 	List<ContractDTO> findByRegistrant(Connection connection, String idRegistrant);
+
 	List<ContractDTO> findAll(Connection connection);
+
+	ContractDTO findByDomainName(Connection connection, String domainName);
+
 	void addContract(Connection connection, ContractDTO contract);
+
 	void removeContractByNumber(Connection connection, int contractNumber);
-	
+
 }
