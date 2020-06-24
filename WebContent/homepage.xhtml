@@ -10,7 +10,7 @@
 	
 </h:head>
 
-<h:body style="background-image:url('image/download.png');">
+<h:body style="background-image:url('image/1886943.png');background-position:center;">
 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
@@ -24,14 +24,18 @@
 			</p:panelGrid>
 		</center>
 		
-		<br/><br/><br/>
+		<br/>
 		
 		<center>
 			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3 ui-fluid, ui-grid-col-6 ui-fluid ,ui-grid-col-3 ui-fluid" layout="grid">		
 				<p:outputPanel></p:outputPanel>
 				<p:outputPanel id="diagramDB">
+					
 					<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
-						<iframe width="760" height="515" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
+						<iframe width="710" height="515" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
+					</p:panelGrid>
+					<p:panelGrid columns="1" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid" layout="grid">
+						<p:commandButton value="VISUALIZZA DATABASE SU DBDIAGRAM.IO" disabled="true" />
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:panelGrid>

@@ -10,7 +10,7 @@
 	
 </h:head>
 
-<h:body >
+<h:body style="background-position:center;">
 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
@@ -18,9 +18,11 @@
 	
 	<h:form id="mainForm">
 		<br style="visibility:hidden;"/>
-		<p:tabView style="height:500px;" id="cmds">
+		<center>
+		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
     	    
     	    <p:tab title="Ricerca">
+    	    	<br/>
 				<h:form id="searchForm">
 					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 					
@@ -63,6 +65,7 @@
 				</p:outputPanel>
         	</p:tab>
         	<p:tab title="Creazione">
+				<br/>	
 				<h:form id="saveContactForm">
 					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 				
@@ -90,6 +93,7 @@
         	</p:tab>
         	
         	<p:tab title="Modifica">
+				<br/>
 				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
 
 					<p:outputPanel> 
@@ -127,7 +131,14 @@
 				</p:panelGrid>
         	</p:tab>
    		</p:tabView>
+   		</center>
 	</h:form>
+	<center>
+	<br/><br/><br/><br/><br/><br/>
+		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;"> 
+			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
+		</p:outputPanel>
+	</center>
 </h:body>
 
 </html>
