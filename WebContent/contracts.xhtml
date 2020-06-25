@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>REGAPP</title>
+	
+</h:head>
+
+<h:body style="background-position:center;">
+
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
+	
+	<h:form >
+		<p:toolbar>
+        	<f:facet name="left">
+           	 	<p:commandButton value="Indietro" title="Vai alla homepage" action="homepage.xhtml"/>
+            	<span class="ui-separator" />
+            	<p:commandButton type="button" title="Informazioni su domini" icon="fa fa-info" onclick="PF('infoContractDialog').show()"/>
+        	</f:facet>
+    	</p:toolbar>
+		<br style="visibility:hidden;"/>
+		<center>
+		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
+    	    
+    	    <p:tab title="Ricerca">
+    	    	<br/>
+				<h:form >
+					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
+						
+					</p:panelGrid>
+				
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
+						
+					</p:panelGrid>
+					<br style="visibility:hidden;"/>
+					<center>
+					</center>
+				</h:form>
+				<p:separator/>
+				<p:outputPanel>
+				</p:outputPanel>
+        	</p:tab>
+        	<p:tab title="Creazione">
+        	</p:tab>
+        	
+        	<p:tab title="Modifica">
+        	</p:tab>
+   		</p:tabView>
+   		</center>
+	</h:form>
+	<p:dialog hideEffect="clip" widgetVar="infoContractDialog" modal="true">
+		<p:outputPanel style="min-heigth:700px;width:700px;">
+			<center>
+				<p:outputLabel style="font-weight: bold;" value="Contratto" />
+			</center>
+			<p:separator />
+			<h:outputText value="Un contratto è un accordo tra due parti, in questo caso le parti sono Registrar e Registrar. In un contratto, in questa specifica 
+			accezione, viene stabilito chi può gestire il dominio specificando ad esempio i nomi di professionisti quali Tech o Admin, vengono riportare informazioni sul dominio
+			e sulle parti che compongono l'accordo. In questa simulazione vengono riportate solo alcune delle informazioni." />
+		</p:outputPanel>
+	</p:dialog>
+	<center>
+	<br/><br/><br/><br/><br/><br/>
+		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;"> 
+			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
+		</p:outputPanel>
+	</center>
+</h:body>
+
+</html>

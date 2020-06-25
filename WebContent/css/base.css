@@ -7,5 +7,9 @@ table.dataTable tbody tr.selected {
 	/*padding-right: 4%;*/
 	margin-bottom: 8px;
 	text-align:center;
+	
 }
-
+.obbligatorio .ui-inputfield, 
+.obbligatorio.ui-inputfield {
+	background-color: lightYellow !important;
+}

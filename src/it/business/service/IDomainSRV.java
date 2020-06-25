@@ -21,4 +21,5 @@ public interface IDomainSRV{
 	void addDomain(DomainDTO domainToSave);
 	
 	void removeDomain(String domainName);
+	
 }

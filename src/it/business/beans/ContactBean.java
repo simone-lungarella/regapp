@@ -21,7 +21,6 @@ import it.business.utils.ApplicationContextProvider;
  * @author Simone Lungarella
  * */
 
-//@Named("contactBean")
 @ManagedBean(name = "contactBean")
 @ViewScoped
 public class ContactBean {
@@ -43,7 +42,7 @@ public class ContactBean {
 		contactSRV = ApplicationContextProvider.getApplicationContext().getBean(ContactSRV.class);
 		loadContactTypes();
 		loadUsers();
-		searchedUsers = new ArrayList<>();
+		searchedUsers = contactSRV.findAll();
 		searchedUser = new ContactDTO();
 		contact = new ContactDTO();
 	}
@@ -117,6 +116,7 @@ public class ContactBean {
 		users = contactSRV.findAll();
 	}
 	
+	//TODO: fix this method
 	public void loadSearchedUsers() {
 		if(!searchedUser.getContactId().isEmpty()) {
 			searchedUsers.add(contactSRV.findById(searchedUser.getContactId()));
@@ -127,10 +127,6 @@ public class ContactBean {
 		}else if(ContactTypeEnum.valueOf(contactTypeString) != null) {
 			searchedUsers = contactSRV.findByContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
 		}
-	}
-	
-	public void print()	{
-		System.out.println("print");
 	}
 	
 	public void editContact() {

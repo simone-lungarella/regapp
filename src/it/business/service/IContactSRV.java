@@ -6,8 +6,8 @@ import it.business.dto.ContactDTO;
 import it.business.enums.ContactTypeEnum;
 
 public interface IContactSRV {
-
-	void addContact(ContactDTO contactToSave);
+	
+	ContactDTO findById(String id);
 
 	List<ContactDTO> findByFirstName(String firstName);
 
@@ -16,8 +16,8 @@ public interface IContactSRV {
 	List<ContactDTO> findByContactType(ContactTypeEnum contactType);
 
 	List<ContactDTO> findAll();
-	
-	ContactDTO findById(String id);
+
+	void addContact(ContactDTO contactToSave);
 
 	void removeContact(String id);
 
