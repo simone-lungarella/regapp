@@ -6,10 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import it.business.dao.IContractDAO;
 import it.business.dto.ContractDTO;
+/**
+ * @author Simone Lungarella
+ * */
 
+@Service
+@Component
 public class ContractSRV extends AbstractService implements IContractSRV{
 
 	private static final long serialVersionUID = 7586912192025747113L;

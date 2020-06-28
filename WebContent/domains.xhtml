@@ -26,34 +26,56 @@
     	</p:toolbar>
 		<br style="visibility:hidden;"/>
 		<center>
-		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
-    	    
-    	    <p:tab title="Ricerca">
-    	    	<br/>
-				<h:form >
-					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
-					
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
-						
-					</p:panelGrid>
-				
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
-						
-					</p:panelGrid>
-					<br style="visibility:hidden;"/>
+			<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
+
+				<p:tab title="Verifica">
 					<center>
+						<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid">
+							<p:outputLabel value="Verifica che il dominio che vuoi registrare sia disponibile" />
+							<p:outputPanel>
+								<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+									<p:outputLabel style="float:right;" value="www." />
+									<p:inputText value="#{domainBean.domain.domainName}" />
+									<p:outputLabel style="float:left;" value=".it" />
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:panelGrid>
 					</center>
-				</h:form>
-				<p:separator/>
-				<p:outputPanel>
-				</p:outputPanel>
-        	</p:tab>
-        	<p:tab title="Creazione">
-        	</p:tab>
+				</p:tab>
+				<p:tab title="Ricerca">
+					<h:form id="searchForm">
+						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					
+						<p:panelGrid style="text-align:center;" columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4, ui-grid-col-4 ui-fluid, ui-grid-col-4 ui-fluid">
+							<p:outputLabel value="Codice Fiscale" />
+							<p:inputText value="#{domainBean.contact.contactId}" />
+							<p:commandButton value="Cerca" action="#{domainBean.search}" update="searchForm:results" />
+						</p:panelGrid>
+					 Nel form non funziona l'action listener col process this, senza form funziona
+						<p:outputPanel id="results">
+							<p:dataTable headerText="Risultati ricerca" rendered="#{not empty domainBean.searchedDomains}" id="dtDomains" value="#{domainBean.searchedDomains}" var="domain" paginator="true" rows="5" paginatorPosition="bottom" >
+        						<p:column style="text-align:center;" headerText="Dominio">
+        							<h:outputText value="#{domain.domainName}" />
+        						</p:column>
+        						<p:column style="text-align:center;" headerText="Registrant">
+        							<h:outputText value="#{domain.registrant}"/>
+        						</p:column>
+        						<p:column style="text-align:center;" headerText="Admin">
+        							<h:outputText value="#{domain.admin}" />
+        						</p:column>
+        						<p:column style="text-align:center;" headerText="DNSSEC">
+        							<h:outputText value="#{(domain.dnssec) ? 'Si' : 'No'}" />
+        						</p:column>
+   							</p:dataTable>
+						</p:outputPanel>
+					</h:form>
+				</p:tab>
+				<p:tab title="Creazione">
+        		</p:tab>
         	
-        	<p:tab title="Modifica">
-        	</p:tab>
-   		</p:tabView>
+        		<p:tab title="Modifica">
+        		</p:tab>
+   			</p:tabView>
    		</center>
 	</h:form>
 	<p:dialog hideEffect="clip" widgetVar="infoDomainDialog" modal="true">

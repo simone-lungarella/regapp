@@ -6,10 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import it.business.dao.IDomainDAO;
 import it.business.dto.DomainDTO;
 
+/**
+ * @author Simone Lungarella
+ * */
+
+@Service
+@Component
 public class DomainSRV extends AbstractService implements IDomainSRV{
 
 	private static final long serialVersionUID = -6139923363203091832L;

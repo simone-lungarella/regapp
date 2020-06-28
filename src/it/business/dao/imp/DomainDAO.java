@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import it.business.dao.AbstractDAO;
 import it.business.dao.IDomainDAO;
 import it.business.dto.DomainDTO;
@@ -16,6 +18,7 @@ import it.business.dto.DomainDTO;
  * 
  */
 
+@Repository
 public class DomainDAO extends AbstractDAO implements IDomainDAO {
 
 	private static final long serialVersionUID = 1221220226271838975L;

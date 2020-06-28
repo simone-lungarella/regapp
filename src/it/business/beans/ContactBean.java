@@ -23,7 +23,7 @@ import it.business.utils.ApplicationContextProvider;
 
 @ManagedBean(name = "contactBean")
 @ViewScoped
-public class ContactBean {
+public class ContactBean extends EntityBean{
 
 	private List<ContactDTO> users;
 	private List<ContactDTO> searchedUsers;
@@ -144,12 +144,6 @@ public class ContactBean {
 		loadContactTypes();
 	}
 	
-	/**
-	 * Metodo di utility per la renderizzazione di messaggi informativi per l'utente
-	 * */
-	protected final void showInfoMessage(final String msg) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", msg));
-	}
 	
 	public void toggleDiagram() {
 		if(isRenderedDiagram())
