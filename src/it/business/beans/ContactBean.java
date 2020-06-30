@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
 
@@ -138,7 +136,6 @@ public class ContactBean extends EntityBean{
 	
 	public void onRowSelect(SelectEvent event) {
 		selectedUser = (ContactDTO) event.getObject();
-//		selectedUser.setContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
 		contact = new ContactDTO(selectedUser);
 		contactTypeString = contact.getContactType().toString();
 		loadContactTypes();

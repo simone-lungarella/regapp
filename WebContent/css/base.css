@@ -13,3 +13,7 @@ table.dataTable tbody tr.selected {
 .obbligatorio.ui-inputfield {
 	background-color: lightYellow !important;
 }
+
+.ui-dialog{
+     position: absolute !important;
+}

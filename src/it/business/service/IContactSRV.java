@@ -5,6 +5,10 @@ import java.util.List;
 import it.business.dto.ContactDTO;
 import it.business.enums.ContactTypeEnum;
 
+/**
+ * @author Simone Lungarella
+ * */
+
 public interface IContactSRV {
 	
 	ContactDTO findById(String id);

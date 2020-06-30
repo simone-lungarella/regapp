@@ -89,6 +89,7 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		return domains;
 	}
 
+	// TODO: gestire il salvataggio del dominio tramite la creazione di tutti i contatti ad esso collegati
 	@Override
 	public void addDomain(DomainDTO domainToSave) {
 		Connection connection = null;

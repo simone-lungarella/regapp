@@ -51,7 +51,6 @@
 							<p:inputText value="#{domainBean.contact.contactId}" />
 							<p:commandButton value="Cerca" action="#{domainBean.search}" update="searchForm:results" />
 						</p:panelGrid>
-					 Nel form non funziona l'action listener col process this, senza form funziona
 						<p:outputPanel id="results">
 							<p:dataTable headerText="Risultati ricerca" rendered="#{not empty domainBean.searchedDomains}" id="dtDomains" value="#{domainBean.searchedDomains}" var="domain" paginator="true" rows="5" paginatorPosition="bottom" >
         						<p:column style="text-align:center;" headerText="Dominio">
@@ -71,13 +70,46 @@
 					</h:form>
 				</p:tab>
 				<p:tab title="Creazione">
+					<h:form id="idCreate">
+						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+						<center>
+							<p:panelGrid style="text-align:center;" columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6, ui-grid-col-6">
+        						<p:commandButton value="Registrant" onclick="PF('pickRegistrantDialog').show()" />
+        						<p:commandButton value="Admin" onclick="PF('pickAdminDialog').show()" />
+        					</p:panelGrid>
+        			
+        					<p:panelGrid style="text-align:center;" columns="1" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12">
+        						<p:selectOneButton unselectable="false"  value="#{domainBean.domain.dnssec}" >
+									<f:selectItem itemValue="#{true}" itemLabel="DNSSEC" />
+									<f:selectItem itemValue="#{false}" itemLabel="DNS"/>
+								</p:selectOneButton>
+							</p:panelGrid>
+
+							<p:panelGrid style="text-align:center;" columns="1" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid">
+        						<br/><br/>
+								<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-1, ui-grid-col-10 ui-fluid, ui-grid-col-1" >
+									<p:outputLabel />
+									<p:outputLabel value="Scegli il nome del dominio" />
+									<p:outputLabel />
+									<p:outputLabel style="float:right;" value="www." />
+									<p:inputText value="#{domainBean.domain.domainName}" />
+									<p:outputLabel style="float:left;" value=".it" />
+								</p:panelGrid>
+							</p:panelGrid>
+							<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4, ui-grid-col-4" >
+								<p:commandButton value="Crea" actionListener="#{domainBean.createDomain}" process="@this:idCreate" />
+        						<p:commandButton value="Request" onclick="PF('showRequest').show()" />
+							</p:panelGrid>
+						
+						</center>
+					</h:form>
         		</p:tab>
-        	
         		<p:tab title="Modifica">
         		</p:tab>
    			</p:tabView>
    		</center>
 	</h:form>
+	<br/><br/><br/><br/><br/><br/>
 	<p:dialog hideEffect="clip" widgetVar="infoDomainDialog" modal="true">
 		<p:outputPanel style="min-heigth:700px;width:700px;">
 			<center>
@@ -90,9 +122,62 @@
 			 che avviene con il Registro per effettuare la richiesta di creazione e non la creazione stessa." />
 		</p:outputPanel>
 	</p:dialog>
+	<p:dialog header="Selezione Registrant del dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="pickRegistrantDialog">
+		<center>
+			<p:outputPanel style="min-heigth:700px;width:700px;">
+				<p:dataTable headerText="Registrant esistenti" id="dtRegistrants" value="#{domainBean.registrants}" var="user" paginator="true" rows="5" paginatorPosition="bottom"
+					selectionMode="single" rowKey="#{user.contactId}" >
+   					<p:ajax event="rowSelect" listener="#{domainBean.onRegistrantSelect}" />
+   					<p:column style="text-align:center;" headerText="Nome">
+        				<h:outputText value="#{user.firstName}" />
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Cognome">
+        				<h:outputText value="#{user.lastName}"/>
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Codice fiscale">
+        				<h:outputText value="#{user.contactId}" />
+        			</p:column>
+   				</p:dataTable>
+   				<p:panelGrid style="text-align:center;" columns="2" styleClass="ui-panelgrid-blank" >
+   					<p:commandButton value="Seleziona" icon="fa fa-save" onclick="PF('pickRegistrantDialog').hide()" />
+   					<p:commandButton value="Chiudi" icon="fa fa-close" onclick="PF('pickRegistrantDialog').hide()" />
+   				</p:panelGrid>
+   			</p:outputPanel>
+   		</center>
+	</p:dialog>
+	<p:dialog header="Selezione Admin del dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="pickAdminDialog">
+		<center>
+			<p:outputPanel style="min-heigth:700px;width:700px;">
+				<p:dataTable headerText="Admin esistenti" id="dtAdmins" value="#{domainBean.admins}" var="user" paginator="true" rows="5" paginatorPosition="bottom"
+					selectionMode="single" rowKey="#{user.contactId}" >
+   					<p:ajax event="rowSelect" listener="#{domainBean.onAdminSelect}" />
+   					<p:column style="text-align:center;" headerText="Nome">
+        				<h:outputText value="#{user.firstName}" />
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Cognome">
+        				<h:outputText value="#{user.lastName}"/>
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Codice fiscale">
+        				<h:outputText value="#{user.contactId}" />
+        			</p:column>
+
+   				</p:dataTable>
+   				<p:panelGrid style="text-align:center;" columns="2" styleClass="ui-panelgrid-blank" >
+   					<p:commandButton value="Seleziona" icon="fa fa-save" onclick="PF('pickAdminDialog').hide()" />
+   					<p:commandButton value="Chiudi" icon="fa fa-close" onclick="PF('pickAdminDialog').hide()" />
+   				</p:panelGrid>
+   			</p:outputPanel>
+   		</center>
+	</p:dialog>
 	
+	<p:dialog header="Request Crea Dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="showRequest">
+		<center>
+			<h:outputText value="aaa">
+			
+			</h:outputText>
+   		</center>
+	</p:dialog>
 	<center>
-	<br/><br/><br/><br/><br/><br/>
 		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;"> 
 			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
 		</p:outputPanel>

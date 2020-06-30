@@ -135,7 +135,7 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 
 		int index = 1;
 		try {
-			String query = "INSERT INTO contacts (contactId, firstName, lastName, contactType) VALUES (?,?,?,?)";
+			String query = "INSERT INTO domains (domainName, admin, registrant, dnssec) VALUES (?,?,?,?)";
 			ps = connection.prepareStatement(query);
 			ps.setString(index++, domain.getDomainName());
 			ps.setString(index++, domain.getAdmin());
@@ -157,7 +157,7 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		PreparedStatement ps = null;
 
 		try {
-			String query = "DELETE FROM contacts WHERE domainName = ?";
+			String query = "DELETE FROM domains WHERE domainName = ?";
 			ps = connection.prepareStatement(query);
 			ps.setString(1, domainName);
 			ps.executeUpdate();
