@@ -105,15 +105,17 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 
 	@Override
 	public List<DomainDTO> findAll(Connection connection) {
-		List<DomainDTO> domains = new ArrayList<>();
+		List<DomainDTO> domains = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		DomainDTO domain = new DomainDTO();
+		DomainDTO domain = null;
 		try {
+			domains = new ArrayList<>();
 			String query = "SELECT * FROM domains";
 			ps = connection.prepareStatement(query);
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				domain = new DomainDTO();
 				domain.setDomainName(rs.getString("domainName"));
 				domain.setDnssec(rs.getBoolean("dnssec"));
 				domain.setAdmin(rs.getString("admin"));

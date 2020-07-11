@@ -7,16 +7,17 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
 import it.business.dto.ContactDTO;
 import it.business.dto.DomainDTO;
 import it.business.enums.ContactTypeEnum;
+import it.business.service.ContactSRV;
 import it.business.service.DomainSRV;
 import it.business.service.IContactSRV;
-import it.business.service.ContactSRV;
 import it.business.service.IDomainSRV;
+import it.business.service.messaging.IXmlGeneratorSRV;
+import it.business.service.messaging.XmlGeneratorSRV;
 import it.business.utils.ApplicationContextProvider;
 
 /**
@@ -29,6 +30,7 @@ public class DomainBean extends EntityBean{
 
 	private IDomainSRV domainSRV;
 	private IContactSRV contactSRV;
+	private IXmlGeneratorSRV xmlGenerator;
 	private DomainDTO domain;
 	private List<ContactTypeEnum> types;
 	private String contactTypeString;
@@ -38,17 +40,28 @@ public class DomainBean extends EntityBean{
 	private List<ContactDTO> admins;
 	private ContactDTO registrant;
 	private ContactDTO admin;
+	private String createRequest;
+	private List<DomainDTO> tempDomains;
+	private boolean existingRequest;
+	private String domainToVerify;
+	/**
+	 * Variabile boolean che comunica lo stato del nome di dominio in fase di ricerca per un utilizzo (VERIFICA)
+	 * */
+	private boolean free;
 	
 	@PostConstruct
 	protected void postConstruct() {
+		setExistingRequest(false);
 		domainSRV = ApplicationContextProvider.getApplicationContext().getBean(DomainSRV.class);
 		contactSRV = ApplicationContextProvider.getApplicationContext().getBean(ContactSRV.class);
+		xmlGenerator = ApplicationContextProvider.getApplicationContext().getBean(XmlGeneratorSRV.class);
 		loadContactTypes();
 		loadRegistrants();
 		loadAdmins();
 		contact = new ContactDTO();
 		domain = new DomainDTO();
 		searchedDomains = domainSRV.findAll();
+		tempDomains = new ArrayList<>();
 	}
 
 	/**
@@ -83,21 +96,58 @@ public class DomainBean extends EntityBean{
 	
 	public void onRegistrantSelect(SelectEvent event) {
 		setRegistrant((ContactDTO) event.getObject());
-//		PrimeFaces pf = PrimeFaces.current();
-//		if (pf.isAjaxRequest()) {
-//		    pf.ajax().update("pickRegistrantDialog");
-//		}
+		
 	}
 	
 	public void createDomain() {
 		if(domain.getDomainName() == null || domain.getDomainName().length() == 0) {
 			showInfoMessage("Non è possibile creare un dominio senza nome");
 		}else {
+			domain.setDomainName("www."+domain.getDomainName()+".it");
+			generateCreateRequest();
 			domain.setAdmin(admin.getContactId());
 			domain.setRegistrant(registrant.getContactId());
 			domainSRV.addDomain(domain);
 		}
-			
+	}
+	
+	public void generateCreateRequest() {
+		if(getRegistrant() != null && getAdmin() != null && domain != null) {
+			try {
+				String result = null;
+				result = xmlGenerator.getCreateDomainXmlRequest(domain, registrant.getContactId(), admin.getContactId());
+				if(result!=null) {
+					setCreateRequest(result);
+					setExistingRequest(true);
+					showInfoMessage("Request creata correttamente");
+				} else {
+					showInfoMessage("Si è verificato un problema nella creazione della request");
+				}
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				showInfoMessage("La richiesta non è formalmente corretta");
+			}
+			 	
+		} else {
+			showInfoMessage("I parametri non sono stati scelti correttamente");
+		}
+	}
+	/**
+	 * Metodo utilizzato per la ricerca WHOIS
+	 * */
+	public void verifica() {
+		DomainDTO temp = domainSRV.findByDomainName("www." + getDomainToVerify() + ".it");
+		if(temp.getDomainName().isEmpty() || temp == null) {
+			setFree(true);
+			setTempDomains(null);
+		} else {
+			tempDomains = new ArrayList<>();
+			tempDomains.add(temp);
+			setTempDomains(tempDomains);
+			setFree(false);
+		}
 	}
 	
 	public void onAdminSelect(SelectEvent event) {
@@ -176,6 +226,48 @@ public class DomainBean extends EntityBean{
 		this.admin = admin;
 	}
 
+	public String getCreateRequest() {
+		return createRequest;
+	}
+
+	public void setCreateRequest(String createRequest) {
+		this.createRequest = createRequest;
+		System.out.println(this.createRequest);
+	}
+
+	public boolean isExistingRequest() {
+		return existingRequest;
+	}
+
+	public void setExistingRequest(boolean existingRequest) {
+		this.existingRequest = existingRequest;
+	}
+
+	public boolean isFree() {
+		return free;
+	}
+
+	public void setFree(boolean free) {
+		this.free = free;
+	}
+
+	public List<DomainDTO> getTempDomains() {
+		return tempDomains;
+	}
+
+	public void setTempDomains(List<DomainDTO> tempDomains) {
+		this.tempDomains = tempDomains;
+	}
+
+	public String getDomainToVerify() {
+		return domainToVerify;
+	}
+
+	public void setDomainToVerify(String domainToVerify) {
+		this.domainToVerify = domainToVerify;
+	}
 	
+	
+
 	
 }

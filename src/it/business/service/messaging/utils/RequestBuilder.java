@@ -1,4 +1,4 @@
-package it.business.utils;
+package it.business.service.messaging.utils;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ import org.w3c.dom.Element;
 import it.business.dto.ContactDTO;
 import it.business.dto.DomainDTO;
 import it.business.enums.ContactTypeEnum;
+import it.business.utils.GenericUtils;
 
 /**
  * @author Simone Lungarella
@@ -70,6 +71,7 @@ public class RequestBuilder extends RequestMessageFactory{
 		String request = "";
 		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 		
+		// Inizializzazione dei contatti utili alla creazione della request
 		ContactDTO registrant = new ContactDTO();
 		List<ContactDTO> otherContacts = new ArrayList<>();
 		for(ContactDTO c : contacts) {
@@ -86,12 +88,13 @@ public class RequestBuilder extends RequestMessageFactory{
 			documentBuilder = documentFactory.newDocumentBuilder();
 			Document document = documentBuilder.newDocument();
 			Element root = buildRootElement(document);
+			document.appendChild(root);
 			Element command = document.createElement("command");
-			document.appendChild(command);
+			root.appendChild(command);
 			Element create = document.createElement("create");
 			command.appendChild(create);
-			Element cmdCreate = buildCreateDomainElement(document, root);
-			create.appendChild(cmdCreate);
+			Element cmdCreate = buildCreateDomainElement(document);
+			create.appendChild(cmdCreate); // Fin qui tutto ok
 			Element name = buildGenericElementWithValue(document, "domain", "name", domain.getDomainName());
 			cmdCreate.appendChild(name);
 			Element period = buildGenericElementWithValue(document, "domain", "period", String.valueOf((Math.random()*10)+1));
@@ -103,7 +106,7 @@ public class RequestBuilder extends RequestMessageFactory{
 			
 			// Genero alcuni hostname per la gestione del dominio
 			int randomBound = (int) (Math.round(Math.random()*10/3 + 1));
-			for(int i = 1; i < randomBound; i++) {
+			for(int i = 1; i <= randomBound; i++) {
 				domain_ns.appendChild(buildGenericElementWithValue(document, "domain", "hostname", "ns" + String.valueOf((Math.random()*1000)+1) + ".dns.dyn.com"));
 			}
 			Element hostname = buildGenericElementWithValue(document, "domain", "registrant", registrant.getContactId());

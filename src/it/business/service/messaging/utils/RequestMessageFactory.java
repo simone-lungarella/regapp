@@ -1,4 +1,4 @@
-package it.business.utils;
+package it.business.service.messaging.utils;
 
 import java.util.List;
 
@@ -9,12 +9,13 @@ import org.w3c.dom.Element;
 
 import it.business.dto.ContactDTO;
 import it.business.dto.DomainDTO;
+import it.business.utils.GenericUtils;
 
 /**
  * @author Simone Lungarella
  * */
 
-public abstract class RequestMessageFactory {
+public abstract class RequestMessageFactory implements MessageFactory{
 	/**
 	 * Le stringhe utilizzate negli attributi degli elementi principali delle request
 	 * */
@@ -24,16 +25,13 @@ public abstract class RequestMessageFactory {
 	
 	private final String xmlns_domain="urn:ietf:params:xml:ns:domain-1.0"; 
 	private final String xmlns_secDNS="urn:ietf:params:xml:ns:secDNS-1.1";
-	private final String xmlns_extsecDNS="http://www.nic.it/ITNIC-EPP/extsecDNS-1.0";
+//	private final String xmlns_extsecDNS="http://www.nic.it/ITNIC-EPP/extsecDNS-1.0";
 	
 	abstract String createDomain(DomainDTO domain, List<ContactDTO> contacts);
 	
-	/**
-	 * Genera l'elemento root per una qualsiasi richiesta epp
-	 * */
+	@Override
 	public Element buildRootElement(Document document) {
 		Element root = document.createElement("epp");
-		document.appendChild(root);
 		Attr attr = document.createAttribute("xmlns");
 		attr.setValue(StringEscapeUtils.escapeXml(xmlns));
 		root.setAttributeNode(attr);
@@ -46,9 +44,9 @@ public abstract class RequestMessageFactory {
 		return root;
 	}
 	
-	public Element buildCreateDomainElement(Document doc, Element parentNode) {
+	@Override
+	public Element buildCreateDomainElement(Document doc) {
 		Element domainElement = doc.createElement("domain:create");
-		parentNode.appendChild(domainElement);
 		
 		Attr attr = doc.createAttribute("xmlns:domain");
 		attr.setValue(StringEscapeUtils.escapeXml(xmlns_domain));
@@ -60,10 +58,11 @@ public abstract class RequestMessageFactory {
 		return domainElement;
 	}
 	
+	@Override
 	public Element buildGenericElementWithValue(Document doc, String entity, String property, String value) {
 		// Se property è una stringa vuota allora il tag non sarà costituito da due parole ma solo dall'entità. Questo permette di avere un solo metodo
 		// per gestire tutti i tipi generici di nodi
-		Element genericElement = doc.createElement(property.isEmpty() ? (entity+":"+property) : entity);
+		Element genericElement = doc.createElement(property.isEmpty() ? entity : (entity+":"+property));
 		genericElement.appendChild(doc.createTextNode(value));
 		
 		return genericElement;
@@ -84,8 +83,8 @@ public abstract class RequestMessageFactory {
 	 *
 	 * */
 	
+	@Override
 	public Element buildDnsSecExtension(Document doc) {
-		Element dnssecExtension = null;
 		Element extension = doc.createElement("extension");
 		Element secDNS_create = doc.createElement("secDNS:create");
 		Attr attr = doc.createAttribute("xmlns:secDNS");
@@ -103,7 +102,7 @@ public abstract class RequestMessageFactory {
 		Element digest = buildGenericElementWithValue(doc, "secDNS", "digest", GenericUtils.randomAlphaNumeric(40).toLowerCase());
 		secDNS_dsData.appendChild(digest);
 		
-		return dnssecExtension;
+		return extension;
 	}
 	
 	

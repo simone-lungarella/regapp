@@ -31,6 +31,7 @@
     	    
     	    <p:tab title="Ricerca">
     	    	<br/>
+    	    	<p:panelGrid columns = "1" columnClasses="ui-grid-col-12 ui-fluid">
 				<h:form id="searchForm">
 					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 					
@@ -49,11 +50,12 @@
 							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
 						</p:selectOneMenu>
 					</p:panelGrid>
-					<br style="visibility:hidden;"/>
+					<p:separator style="visibility:hidden;"/>
 					<center>
-						<p:commandButton id="searchButton" actionListener="#{contactBean.loadSearchedUsers}" process="@this:searchForm" value="Cerca" icon="fa fa-search" update="mainForm:cmds:searchForm"/>				
+						<p:commandButton actionListener="#{contactBean.loadSearchedUsers}" process="@this" value="Cerca" icon="fa fa-search" update="@form"/>				
 					</center>
 				</h:form>
+				</p:panelGrid>
 				<p:separator/>
 				<p:outputPanel>
 					<p:dataTable headerText="Risultati ricerca" rendered="#{not empty contactBean.searchedUsers}" id="dtUsers" value="#{contactBean.searchedUsers}" var="user" paginator="true" rows="5" paginatorPosition="bottom" >
@@ -73,7 +75,7 @@
 				</p:outputPanel>
         	</p:tab>
         	<p:tab title="Creazione">
-				<br/>	
+				<br/>
 				<h:form id="saveContactForm">
 					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 				
@@ -82,7 +84,7 @@
 							<p:outputLabel value="Nome"  />
 							<p:outputLabel value="*" style="color:red;" />
 						</p:outputPanel>
-						<p:inputText id="firstNameInput" value="#{contactBean.contact.firstName}" />
+						<p:inputText value="#{contactBean.contact.firstName}" />
 						<p:outputPanel>
 							<p:outputLabel value = "Cognome"/>
 							<p:outputLabel value="*" style="color:red;" />
@@ -127,7 +129,7 @@
 				
 						<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
 							<p:outputLabel value="Nome" />
-							<p:inputText placeholder="#{contactBean.selectedUser.firstName}" id="firstNameInput" value="#{contactBean.contact.firstName}" />
+							<p:inputText placeholder="#{contactBean.selectedUser.firstName}" value="#{contactBean.contact.firstName}" />
 							<p:outputLabel value = "Cognome"/>
 							<p:inputText placeholder="#{contactBean.selectedUser.lastName}" value="#{contactBean.contact.lastName}" />
 						</p:panelGrid>
@@ -143,7 +145,7 @@
 						<p:separator style="visibility:hidden;"/>
 						<p:separator/>
 						<center>
-							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" process="@this:editContactForm" update="@form" value="Modifica" icon="fa fa-save" />				
+							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" process="@this" update="@form" value="Modifica" icon="fa fa-save" />				
 						</center>
 					</h:form>
 				</p:panelGrid>
