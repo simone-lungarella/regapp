@@ -16,8 +16,8 @@ import it.business.service.ContactSRV;
 import it.business.service.DomainSRV;
 import it.business.service.IContactSRV;
 import it.business.service.IDomainSRV;
-import it.business.service.messaging.IXmlGeneratorSRV;
-import it.business.service.messaging.XmlGeneratorSRV;
+import it.business.service.messaging.IXmlRequestGeneratorSRV;
+import it.business.service.messaging.XmlRequestGeneratorSRV;
 import it.business.utils.ApplicationContextProvider;
 
 /**
@@ -30,7 +30,7 @@ public class DomainBean extends EntityBean{
 
 	private IDomainSRV domainSRV;
 	private IContactSRV contactSRV;
-	private IXmlGeneratorSRV xmlGenerator;
+	private IXmlRequestGeneratorSRV xmlGenerator;
 	private DomainDTO domain;
 	private List<ContactTypeEnum> types;
 	private String contactTypeString;
@@ -54,7 +54,7 @@ public class DomainBean extends EntityBean{
 		setExistingRequest(false);
 		domainSRV = ApplicationContextProvider.getApplicationContext().getBean(DomainSRV.class);
 		contactSRV = ApplicationContextProvider.getApplicationContext().getBean(ContactSRV.class);
-		xmlGenerator = ApplicationContextProvider.getApplicationContext().getBean(XmlGeneratorSRV.class);
+		xmlGenerator = ApplicationContextProvider.getApplicationContext().getBean(XmlRequestGeneratorSRV.class);
 		loadContactTypes();
 		loadRegistrants();
 		loadAdmins();

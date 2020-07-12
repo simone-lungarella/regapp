@@ -26,7 +26,7 @@ public class ContactBean extends EntityBean{
 	private List<ContactDTO> users;
 	private List<ContactDTO> searchedUsers;
 	private ContactDTO contactToRollBack;
-	private String contactTypeString;
+	private String contactTypeString = "Registrar";
 	private ContactDTO contact;
 	private ContactDTO selectedUser;
 	private ContactDTO searchedUser;
@@ -127,6 +127,11 @@ public class ContactBean extends EntityBean{
 		}
 	}
 	
+	public void test() {
+		ContactDTO c = contact;
+		System.out.println(c);
+	}
+
 	public void editContact() {
 		contactToRollBack = new ContactDTO(selectedUser);
 		contactSRV.removeContact(selectedUser.getContactId());

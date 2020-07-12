@@ -68,21 +68,6 @@ public abstract class RequestMessageFactory implements MessageFactory{
 		return genericElement;
 	}
 	
-	/**
-	 *	L'estensione di sicurezza prevede il seguente formato
-	 *	<extension>
-	 * 		<secDNS:create xmlns:secDNS="urn:ietf:params:xml:ns:secDNS-1.1">
-	 * 		<secDNS:dsData>
-	 *  		<secDNS:keyTag>12345</secDNS:keyTag>
-	 * 			<secDNS:alg>3</secDNS:alg>
-	 *			<secDNS:digestType>1</secDNS:digestType>
-	 * 			<secDNS:digest>4347d0f8ba661234a8eadc005e2e1d1b646c9682</secDNS:digest>
-	 * 		</secDNS:dsData>
-	 * 		</secDNS:create>
-	 *	</extension>
-	 *
-	 * */
-	
 	@Override
 	public Element buildDnsSecExtension(Document doc) {
 		Element extension = doc.createElement("extension");

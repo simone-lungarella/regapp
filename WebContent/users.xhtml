@@ -28,7 +28,45 @@
 		<br style="visibility:hidden;"/>
 		<center>
 		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
+    	    <p:tab title="Test">
+    	    <br/>
     	    
+    	    	<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
+
+					<p:outputPanel> 
+						<p:dataTable  id="dtTest" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
+        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="mainForm:cmds:formTest"/>
+        					<p:column headerText="Utenti esistenti">
+        						<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
+        					</p:column>
+   				 		</p:dataTable>
+					</p:outputPanel>
+				<h:form id="formTest">
+					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+				
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+						<p:outputLabel value="Nome" />
+						<p:inputText value="#{contactBean.contact.firstName}" />
+						<p:outputLabel value = "Cognome"/>
+						<p:inputText value="#{contactBean.contact.lastName}" />
+					</p:panelGrid>
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+						<p:outputLabel value="Codice fiscale" />
+						<p:inputText value="#{contactBean.contact.contactId}" />
+						<p:outputLabel value="Tipo del contatto" />
+						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
+							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
+						</p:selectOneMenu>
+					
+					</p:panelGrid>
+					<p:separator style="visibility:hidden;"/>
+					<p:separator/>
+					<center>
+						<p:commandButton style="width:350px;" actionListener="#{contactBean.test}" process="@this" update="@form" value="Modifica" icon="fa fa-save" />				
+					</center>
+					</h:form>
+				</p:panelGrid>
+    	    </p:tab>
     	    <p:tab title="Ricerca">
     	    	<br/>
     	    	<p:panelGrid columns = "1" columnClasses="ui-grid-col-12 ui-fluid">
@@ -37,14 +75,14 @@
 					
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
 						<p:outputLabel value="Nome" />
-						<p:inputText value="#{contactBean.searchedUser.firstName}" />
+						<p:inputText value="#{contactBean.contact.firstName}" />
 						<p:outputLabel value="Cognome" />
-						<p:inputText value="#{contactBean.searchedUser.lastName}" />
+						<p:inputText value="#{contactBean.contact.lastName}" />
 					</p:panelGrid>
 				
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
 						<p:outputLabel value="Codice fiscale" />
-						<p:inputText  value="#{contactBean.searchedUser.contactId}"/>
+						<p:inputText  value="#{contactBean.contact.contactId}"/>
 						<p:outputLabel value="Tipo contatto"/>
 						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
 							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
@@ -107,7 +145,7 @@
 					
 					<p:separator/>
 					<center>
-						<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this:saveContactForm" value="Salva" icon="fa fa-save" update="mainForm:cmds:saveContactForm, mainForm:cmds:dtContacts"/>				
+						<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this" value="Salva" icon="fa fa-save" update="mainForm:cmds:saveContactForm, mainForm:cmds:dtContacts"/>				
 					</center>
 				</h:form>
         	</p:tab>
@@ -148,6 +186,7 @@
 							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" process="@this" update="@form" value="Modifica" icon="fa fa-save" />				
 						</center>
 					</h:form>
+					
 				</p:panelGrid>
         	</p:tab>
    		</p:tabView>

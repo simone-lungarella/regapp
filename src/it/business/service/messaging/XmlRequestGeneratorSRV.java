@@ -19,7 +19,7 @@ import it.business.service.messaging.utils.RequestBuilder;
 
 @Service
 @Component
-public class XmlGeneratorSRV extends AbstractService implements IXmlGeneratorSRV{
+public class XmlRequestGeneratorSRV extends AbstractService implements IXmlRequestGeneratorSRV{
 
 	private static final long serialVersionUID = 8931171031798205976L;
 	
