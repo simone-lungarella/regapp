@@ -49,6 +49,7 @@ public class DomainBean extends EntityBean{
 	 * */
 	private boolean free;
 	
+	@Override
 	@PostConstruct
 	protected void postConstruct() {
 		setExistingRequest(false);
@@ -266,8 +267,6 @@ public class DomainBean extends EntityBean{
 	public void setDomainToVerify(String domainToVerify) {
 		this.domainToVerify = domainToVerify;
 	}
-	
-	
 
 	
 }

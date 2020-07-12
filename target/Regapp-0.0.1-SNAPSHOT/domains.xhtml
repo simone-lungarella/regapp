@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>REGAPP</title>
+	
+</h:head>
+
+<h:body style="background-position:center;">
+
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
+	
+	<h:form >
+		<p:toolbar>
+        	<f:facet name="left">
+           	 	<p:commandButton value="Indietro" title="Vai alla homepage" action="homepage.xhtml"/>
+            	<span class="ui-separator" />
+            	<p:commandButton type="button" title="Informazioni su domini" icon="fa fa-info" onclick="PF('infoDomainDialog').show()"/>
+        	</f:facet>
+    	</p:toolbar>
+		<br style="visibility:hidden;"/>
+		<center>
+			<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
+
+				<p:tab title="Verifica">
+					<center>
+						<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid">
+							<p:outputLabel value="Verifica che il dominio che vuoi registrare sia disponibile" />
+							<p:outputPanel>
+								<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+									<p:outputLabel style="float:right;" value="www." />
+									<p:inputText value="#{domainBean.domainToVerify}" />
+									<p:outputLabel style="float:left;" value=".it" />
+								</p:panelGrid>
+								<p:commandButton style="width:200px;" value="Verifica" actionListener="#{domainBean.verifica}" process="@this" update="dtDomainsWHOIS, messageFree" />
+							</p:outputPanel>
+							
+							<p:outputPanel>
+								<h3> RICERCA WHOIS </h3>
+								<p:dataTable emptyMessage="Esegui una ricerca per verificare che il dominio sia disponibile" headerText="Risultati ricerca" rendered="#{!domainBean.free}" id="dtDomainsWHOIS" value="#{domainBean.tempDomains}" var="domain"  rows="1" >
+        							<p:column style="text-align:center;" headerText="Dominio">
+        								<h:outputText value="#{domain.domainName}" />
+        							</p:column>
+        							<p:column style="text-align:center;" headerText="Registrant">
+        								<h:outputText value="#{domain.registrant}"/>
+        							</p:column>
+        							<p:column style="text-align:center;" headerText="Admin">
+        								<h:outputText value="#{domain.admin}" />
+        							</p:column>
+        							<p:column style="text-align:center;" headerText="DNSSEC">
+        								<h:outputText value="#{(domain.dnssec) ? 'Si' : 'No'}" />
+        							</p:column>
+   								</p:dataTable>
+   								<p:outputPanel id="messageFree" rendered="#{domainBean.free}">
+   									<p:outputLabel value="Dominio disponibile, puoi procedere alla creazione nella sezione successiva!" />
+   								</p:outputPanel>
+							</p:outputPanel>
+						</p:panelGrid>
+					</center>
+				</p:tab>
+				<p:tab title="Ricerca">
+					<h:form id="searchForm">
+						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					
+						<p:panelGrid style="text-align:center;" columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4, ui-grid-col-4 ui-fluid, ui-grid-col-4 ui-fluid">
+							<p:outputLabel value="Codice Fiscale" />
+							<p:inputText value="#{domainBean.contact.contactId}" />
+							<p:commandButton value="Cerca" actionListener="#{domainBean.search}" process="@this" update="searchForm:results" />
+						</p:panelGrid>
+						<br/>
+						<p:outputPanel id="results">
+							<p:dataTable headerText="Risultati ricerca" rendered="#{not empty domainBean.searchedDomains}" id="dtDomains" value="#{domainBean.searchedDomains}" var="domain" paginator="true" rows="5" paginatorPosition="bottom" >
+        						<p:column style="text-align:center;" headerText="Dominio">
+        							<h:outputText value="#{domain.domainName}" />
+        						</p:column>
+        						<p:column style="text-align:center;" headerText="Registrant">
+        							<h:outputText value="#{domain.registrant}"/>
+        						</p:column>
+        						<p:column style="text-align:center;" headerText="Admin">
+        							<h:outputText value="#{domain.admin}" />
+        						</p:column>
+        						<p:column style="text-align:center;" headerText="DNSSEC">
+        							<h:outputText value="#{(domain.dnssec) ? 'Si' : 'No'}" />
+        						</p:column>
+   							</p:dataTable>
+						</p:outputPanel>
+						<br/>
+						<p:commandButton icon="fa fa-refresh" update="results" />
+					</h:form>
+				</p:tab>
+				<p:tab title="Creazione">
+					<h:form id="idCreate">
+						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+						<center>
+						
+							<p:panelGrid style="text-align:center;" columns="1" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid">
+        						<p:selectOneButton unselectable="false"  value="#{domainBean.domain.dnssec}" >
+									<f:selectItem itemValue="#{true}" itemLabel="SEC" />
+									<f:selectItem itemValue="#{false}" itemLabel="DNS"/>
+								</p:selectOneButton>
+							</p:panelGrid>
+							
+							<p:panelGrid style="text-align:center;" columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-6 ui-fluid">
+        						<p:commandButton value="Registrant" onclick="PF('pickRegistrantDialog').show()" />
+        						<p:commandButton value="Admin" onclick="PF('pickAdminDialog').show()" />
+        					</p:panelGrid>
+        			
+							<p:panelGrid style="text-align:center;" columns="1" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid">
+        						<br/>
+								<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-1, ui-grid-col-10 ui-fluid, ui-grid-col-1" >
+									<p:outputLabel />
+									<p:outputLabel value="Scegli il nome del dominio" />
+									<p:outputLabel />
+									<p:outputLabel style="float:right;" value="www." />
+									<p:inputText value="#{domainBean.domain.domainName}" />
+									<p:outputLabel style="float:left;" value=".it" />
+								</p:panelGrid>
+							</p:panelGrid>
+						</center>
+						<br/>
+						<center>
+							<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid, ui-grid-col-4 ui-fluid, ui-grid-col-4 ui-fluid" >
+								<p:outputPanel />
+								<p:commandButton value="Crea" actionListener="#{domainBean.createDomain}" process="@this:idCreate" update="idCreate"/>
+								<p:outputPanel />
+							</p:panelGrid>
+						</center>
+						
+						<p:outputPanel id="requestId" rendered="#{domainBean.existingRequest}" style="max-heigth:200px; overflow-y:auto;">
+							<p:separator />
+							<h:outputText title="Request generata per la creazione del dominio" value="#{domainBean.createRequest}" />
+						</p:outputPanel>
+					</h:form>
+        		</p:tab>
+        		<p:tab title="Modifica">
+        		</p:tab>
+   			</p:tabView>
+   		</center>
+	</h:form>
+	<br/><br/><br/><br/><br/><br/>
+	<p:dialog hideEffect="clip" widgetVar="infoDomainDialog" modal="true">
+		<p:outputPanel style="min-heigth:700px;width:700px;">
+			<center>
+				<p:outputLabel style="font-weight: bold;" value="Dominio .it e edu.it." />
+			</center>
+			<p:separator />
+			<h:outputText value="In Informatica un dominio è un insieme di computer che condividono un database di risorse di rete e che vengono amministrati
+			 come un' unità con regole e procedure comuni. La creazione di un dominio con questa APP simula la creazione di un dominio di primo livello con estensione
+			 .it. Parallelamente alla creazione di un dominio di primo livello ci sono molte cose che accadono, con questa APP si vuole evidenziare la comunicazione
+			 che avviene con il Registro per effettuare la richiesta di creazione e non la creazione stessa." />
+		</p:outputPanel>
+	</p:dialog>
+	<p:dialog header="Selezione Registrant del dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="pickRegistrantDialog">
+		<center>
+			<p:outputPanel style="min-heigth:700px;width:700px;">
+				<p:dataTable headerText="Registrant esistenti" id="dtRegistrants" value="#{domainBean.registrants}" var="user" paginator="true" rows="5" paginatorPosition="bottom"
+					selectionMode="single" rowKey="#{user.contactId}" >
+   					<p:ajax event="rowSelect" listener="#{domainBean.onRegistrantSelect}" />
+   					<p:column style="text-align:center;" headerText="Nome">
+        				<h:outputText value="#{user.firstName}" />
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Cognome">
+        				<h:outputText value="#{user.lastName}"/>
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Codice fiscale">
+        				<h:outputText value="#{user.contactId}" />
+        			</p:column>
+   				</p:dataTable>
+   				<p:panelGrid style="text-align:center;" columns="2" styleClass="ui-panelgrid-blank" >
+   					<p:commandButton value="Seleziona" icon="fa fa-save" onclick="PF('pickRegistrantDialog').hide()" />
+   					<p:commandButton value="Chiudi" icon="fa fa-close" onclick="PF('pickRegistrantDialog').hide()" />
+   				</p:panelGrid>
+   			</p:outputPanel>
+   		</center>
+	</p:dialog>
+	<p:dialog header="Selezione Admin del dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="pickAdminDialog">
+		<center>
+			<p:outputPanel style="min-heigth:700px;width:700px;">
+				<p:dataTable headerText="Admin esistenti" id="dtAdmins" value="#{domainBean.admins}" var="user" paginator="true" rows="5" paginatorPosition="bottom"
+					selectionMode="single" rowKey="#{user.contactId}" >
+   					<p:ajax event="rowSelect" listener="#{domainBean.onAdminSelect}" />
+   					<p:column style="text-align:center;" headerText="Nome">
+        				<h:outputText value="#{user.firstName}" />
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Cognome">
+        				<h:outputText value="#{user.lastName}"/>
+        			</p:column>
+        			<p:column style="text-align:center;" headerText="Codice fiscale">
+        				<h:outputText value="#{user.contactId}" />
+        			</p:column>
+
+   				</p:dataTable>
+   				<p:panelGrid style="text-align:center;" columns="2" styleClass="ui-panelgrid-blank" >
+   					<p:commandButton value="Seleziona" icon="fa fa-save" onclick="PF('pickAdminDialog').hide()" />
+   					<p:commandButton value="Chiudi" icon="fa fa-close" onclick="PF('pickAdminDialog').hide()" />
+   				</p:panelGrid>
+   			</p:outputPanel>
+   		</center>
+	</p:dialog>
+	
+	<center>
+		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;"> 
+			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
+		</p:outputPanel>
+	</center>
+</h:body>
+
+</html>

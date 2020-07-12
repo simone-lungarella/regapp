@@ -1,5 +1,6 @@
 package it.business.beans;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -11,4 +12,6 @@ public abstract class EntityBean {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", msg));
 	}
 	
+	@PostConstruct
+	protected abstract void postConstruct();
 }

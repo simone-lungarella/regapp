@@ -16,7 +16,6 @@
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
 	
-	<h:form >
 		<p:toolbar>
         	<f:facet name="left">
            	 	<p:commandButton value="Indietro" title="Vai alla homepage" action="homepage.xhtml"/>
@@ -26,27 +25,19 @@
     	</p:toolbar>
 		<br style="visibility:hidden;"/>
 		<center>
+		<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
 		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
     	    
     	    <p:tab title="Ricerca">
     	    	<br/>
 				<h:form >
-					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					<p:inputText value="#{contractBean.contract.domain}" />
 					
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
-						
-					</p:panelGrid>
-				
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
-						
-					</p:panelGrid>
-					<br style="visibility:hidden;"/>
-					<center>
-					</center>
 				</h:form>
+				<p:commandButton value="Test" actionListener="#{contractBean.test}" />
 				<p:separator/>
-				<p:outputPanel>
-				</p:outputPanel>
+				
+								
         	</p:tab>
         	<p:tab title="Creazione">
         	</p:tab>
@@ -55,7 +46,6 @@
         	</p:tab>
    		</p:tabView>
    		</center>
-	</h:form>
 	<p:dialog hideEffect="clip" widgetVar="infoContractDialog" modal="true">
 		<p:outputPanel style="min-heigth:700px;width:700px;">
 			<center>

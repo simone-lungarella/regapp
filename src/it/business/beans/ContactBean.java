@@ -26,7 +26,7 @@ public class ContactBean extends EntityBean{
 	private List<ContactDTO> users;
 	private List<ContactDTO> searchedUsers;
 	private ContactDTO contactToRollBack;
-	private String contactTypeString = "Registrar";
+	private String contactTypeString;
 	private ContactDTO contact;
 	private ContactDTO selectedUser;
 	private ContactDTO searchedUser;
@@ -35,6 +35,7 @@ public class ContactBean extends EntityBean{
 	
 	private IContactSRV contactSRV;
 
+	@Override
 	@PostConstruct
 	protected void postConstruct() {
 		contactSRV = ApplicationContextProvider.getApplicationContext().getBean(ContactSRV.class);

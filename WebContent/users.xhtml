@@ -16,7 +16,6 @@
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
 	
-	<h:form id="mainForm">
 		<p:toolbar>
         	<f:facet name="left">
            	 	<p:commandButton value="Indietro" title="Vai alla homepage" action="homepage.xhtml"/>
@@ -28,50 +27,11 @@
 		<br style="visibility:hidden;"/>
 		<center>
 		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
-    	    <p:tab title="Test">
-    	    <br/>
-    	    
-    	    	<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
-
-					<p:outputPanel> 
-						<p:dataTable  id="dtTest" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
-        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="mainForm:cmds:formTest"/>
-        					<p:column headerText="Utenti esistenti">
-        						<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
-        					</p:column>
-   				 		</p:dataTable>
-					</p:outputPanel>
-				<h:form id="formTest">
-					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
-				
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-						<p:outputLabel value="Nome" />
-						<p:inputText value="#{contactBean.contact.firstName}" />
-						<p:outputLabel value = "Cognome"/>
-						<p:inputText value="#{contactBean.contact.lastName}" />
-					</p:panelGrid>
-					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
-						<p:outputLabel value="Codice fiscale" />
-						<p:inputText value="#{contactBean.contact.contactId}" />
-						<p:outputLabel value="Tipo del contatto" />
-						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
-							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
-						</p:selectOneMenu>
-					
-					</p:panelGrid>
-					<p:separator style="visibility:hidden;"/>
-					<p:separator/>
-					<center>
-						<p:commandButton style="width:350px;" actionListener="#{contactBean.test}" process="@this" update="@form" value="Modifica" icon="fa fa-save" />				
-					</center>
-					</h:form>
-				</p:panelGrid>
-    	    </p:tab>
     	    <p:tab title="Ricerca">
     	    	<br/>
     	    	<p:panelGrid columns = "1" columnClasses="ui-grid-col-12 ui-fluid">
 				<h:form id="searchForm">
-					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					<p:growl showDetail="true" sticky="false" severity="info" />
 					
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
 						<p:outputLabel value="Nome" />
@@ -90,7 +50,7 @@
 					</p:panelGrid>
 					<p:separator style="visibility:hidden;"/>
 					<center>
-						<p:commandButton actionListener="#{contactBean.loadSearchedUsers}" process="@this" value="Cerca" icon="fa fa-search" update="@form"/>				
+						<p:commandButton actionListener="#{contactBean.loadSearchedUsers}" value="Cerca" icon="fa fa-search" update="@form"/>				
 					</center>
 				</h:form>
 				</p:panelGrid>
@@ -115,7 +75,7 @@
         	<p:tab title="Creazione">
 				<br/>
 				<h:form id="saveContactForm">
-					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					<p:growl showDetail="true" sticky="false" severity="info" />
 				
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
 						<p:outputPanel>
@@ -145,7 +105,7 @@
 					
 					<p:separator/>
 					<center>
-						<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this" value="Salva" icon="fa fa-save" update="mainForm:cmds:saveContactForm, mainForm:cmds:dtContacts"/>				
+						<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" value="Salva" icon="fa fa-save" update="cmds:saveContactForm, cmds:dtContacts"/>				
 					</center>
 				</h:form>
         	</p:tab>
@@ -156,14 +116,14 @@
 
 					<p:outputPanel> 
 						<p:dataTable id="dtContacts" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
-        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="mainForm:cmds:editContactForm"/>
+        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="cmds:editContactForm"/>
         					<p:column headerText="Utenti esistenti">
         						<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
         					</p:column>
    				 		</p:dataTable>
 					</p:outputPanel>
 					<h:form id="editContactForm">
-						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+						<p:growl showDetail="true" sticky="false" severity="info" />
 				
 						<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
 							<p:outputLabel value="Nome" />
@@ -183,7 +143,7 @@
 						<p:separator style="visibility:hidden;"/>
 						<p:separator/>
 						<center>
-							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" process="@this" update="@form" value="Modifica" icon="fa fa-save" />				
+							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" update="@form" value="Modifica" icon="fa fa-save" />				
 						</center>
 					</h:form>
 					
@@ -191,7 +151,6 @@
         	</p:tab>
    		</p:tabView>
    		</center>
-	</h:form>
 	<center>
 	<br/><br/><br/><br/><br/><br/>
 		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;"> 

@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>REGAPP</title>
+	
+</h:head>
+
+<h:body style="background-position:center;">
+
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
+	
+	<h:form id="mainForm">
+		<p:toolbar>
+        	<f:facet name="left">
+           	 	<p:commandButton value="Indietro" title="Vai alla homepage" action="homepage.xhtml"/>
+            	<span class="ui-separator" />
+            	<p:commandButton type="button" title="Informazioni su utenti" icon="fa fa-info" onclick="PF('infoDialog').show()"/>
+        	</f:facet>
+ 
+    	</p:toolbar>
+		<br style="visibility:hidden;"/>
+		<center>
+		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
+    	    <p:tab title="Test">
+    	    <br/>
+    	    
+    	    	<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
+
+					<p:outputPanel> 
+						<p:dataTable  id="dtTest" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
+        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="mainForm:cmds:formTest"/>
+        					<p:column headerText="Utenti esistenti">
+        						<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
+        					</p:column>
+   				 		</p:dataTable>
+					</p:outputPanel>
+				<h:form id="formTest">
+					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+				
+					
+					</h:form>
+				</p:panelGrid>
+    	    </p:tab>
+    	    <p:tab title="Ricerca">
+    	    	<br/>
+    	    	<p:panelGrid columns = "1" columnClasses="ui-grid-col-12 ui-fluid">
+				<h:form id="searchForm">
+					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+					
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
+						<p:outputLabel value="Nome" />
+						<p:inputText value="#{contactBean.contact.firstName}" />
+						<p:outputLabel value="Cognome" />
+						<p:inputText value="#{contactBean.contact.lastName}" />
+					</p:panelGrid>
+				
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
+						<p:outputLabel value="Codice fiscale" />
+						<p:inputText  value="#{contactBean.contact.contactId}"/>
+						<p:outputLabel value="Tipo contatto"/>
+						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
+							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<p:separator style="visibility:hidden;"/>
+					<center>
+						<p:commandButton actionListener="#{contactBean.loadSearchedUsers}" process="@this" value="Cerca" icon="fa fa-search" update="@form"/>				
+					</center>
+				</h:form>
+				</p:panelGrid>
+				<p:separator/>
+				<p:outputPanel>
+					<p:dataTable headerText="Risultati ricerca" rendered="#{not empty contactBean.searchedUsers}" id="dtUsers" value="#{contactBean.searchedUsers}" var="user" paginator="true" rows="5" paginatorPosition="bottom" >
+        				<p:column style="text-align:center;" headerText="Nome">
+        					<h:outputText value="#{user.firstName}" />
+        				</p:column>
+        				<p:column style="text-align:center;" headerText="Cognome">
+        					<h:outputText value="#{user.lastName}"/>
+        				</p:column>
+        				<p:column style="text-align:center;" headerText="Codice fiscale">
+        					<h:outputText value="#{user.contactId}" />
+        				</p:column>
+        				<p:column style="text-align:center;" headerText="Tipo contatto">
+        					<h:outputText value="#{user.contactType}" />
+        				</p:column>
+   					</p:dataTable>
+				</p:outputPanel>
+        	</p:tab>
+        	<p:tab title="Creazione">
+				<br/>
+				<h:form id="saveContactForm">
+					<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+				
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+						<p:outputPanel>
+							<p:outputLabel value="Nome"  />
+							<p:outputLabel value="*" style="color:red;" />
+						</p:outputPanel>
+						<p:inputText value="#{contactBean.contact.firstName}" />
+						<p:outputPanel>
+							<p:outputLabel value = "Cognome"/>
+							<p:outputLabel value="*" style="color:red;" />
+						</p:outputPanel>
+						
+						<p:inputText value="#{contactBean.contact.lastName}" />
+					</p:panelGrid>
+					
+					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+						<p:outputPanel>
+							<p:outputLabel value="Codice fiscale" />
+							<p:outputLabel value="*" style="color:red;" />
+						</p:outputPanel>
+						<p:inputText value="#{contactBean.contact.contactId}" />
+						<p:outputLabel value="Tipo del contatto" />
+						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
+							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					
+					<p:separator/>
+					<center>
+						<p:commandButton id="saveButton" actionListener="#{contactBean.saveContact}" process="@this" value="Salva" icon="fa fa-save" update="mainForm:cmds:saveContactForm, mainForm:cmds:dtContacts"/>				
+					</center>
+				</h:form>
+        	</p:tab>
+        	
+        	<p:tab title="Modifica">
+				<br/>
+				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6 ui-fluid, ui-grid-col-12 ui-fluid">
+
+					<p:outputPanel> 
+						<p:dataTable id="dtContacts" value="#{contactBean.users}" var="user" paginator="true" selection="#{contactBean.selectedUser}" selectionMode="single" rowKey="#{user.contactId}" rows="8" paginatorPosition="bottom" >
+        					<p:ajax event="rowSelect" listener="#{contactBean.onRowSelect}" update="mainForm:cmds:editContactForm"/>
+        					<p:column headerText="Utenti esistenti">
+        						<h:outputText value="#{user.firstName}, #{user.lastName}, #{user.contactId}" />
+        					</p:column>
+   				 		</p:dataTable>
+					</p:outputPanel>
+					<h:form id="editContactForm">
+						<p:growl id="growl" showDetail="true" sticky="false" severity="info" />
+				
+						<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+							<p:outputLabel value="Nome" />
+							<p:inputText placeholder="#{contactBean.selectedUser.firstName}" value="#{contactBean.contact.firstName}" />
+							<p:outputLabel value = "Cognome"/>
+							<p:inputText placeholder="#{contactBean.selectedUser.lastName}" value="#{contactBean.contact.lastName}" />
+						</p:panelGrid>
+						<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-5 ui-fluid,ui-grid-col-2, ui-grid-col-5 ui-fluid">
+							<p:outputLabel value="Codice fiscale" />
+							<p:inputText placeholder="#{contactBean.selectedUser.contactId}" value="#{contactBean.contact.contactId}" />
+							<p:outputLabel value="Tipo del contatto" />
+							<p:selectOneMenu value="#{contactBean.contactTypeString}" >
+								<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
+							</p:selectOneMenu>
+					
+						</p:panelGrid>
+						<p:separator style="visibility:hidden;"/>
+						<p:separator/>
+						<center>
+							<p:commandButton style="width:350px;" actionListener="#{contactBean.editContact}" process="@this" update="@form" value="Modifica" icon="fa fa-save" />				
+						</center>
+					</h:form>
+					
+				</p:panelGrid>
+        	</p:tab>
+   		</p:tabView>
+   		</center>
+	</h:form>
+	<center>
+	<br/><br/><br/><br/><br/><br/>
+		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;"> 
+			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
+		</p:outputPanel>
+	</center>
+	
+	<p:dialog hideEffect="clip" widgetVar="infoDialog" modal="true">
+		<p:outputPanel style="min-heigth:700px;width:700px;">
+			<center>
+				<p:outputLabel style="font-weight: bold;" value="Info Utenti REGAPP" />
+			</center>
+			<p:accordionPanel>
+        		<p:tab title="REGISTRAR" >
+               		<h:outputText value="Il Registrar è colui che ha un contratto commerciale attivo con il Registro .it, ciò attesta che questo tipo di utente ha le 
+               		capacità per gestire un dominio .it o edu.it per qualsiasi utente per conto del Registro. Questo utente è tenuto a superare un test di accreditamento
+               		per divenire tale e deve dimostrare di avere le capacità e l'attrezzatura per eseguire questo tipo di attività.
+               		Ciascun Registrar, nella massima autonomia, offre servizi di ogni livello e prezzo, dalla semplice registrazione di un nome a dominio alla realizzazione 
+               		di siti web, alla fornitura di connettività Internet, all'erogazione di servizi altamente specializzati. Ogni Registrar stabilisce in autonomia anche i 
+               		costi della registrazione e del mantenimento dei domini .it e edu.it."/>
+        		</p:tab>
+       			<p:tab title="REGISTRANT">
+             	 	<h:outputText value="Un Registrant è colui che detiene pieni diritti sul dominio ed è in stretto contatto con il Registrar per effettuare
+              	 	qualsiasi modifica e controlla egli voglia, previa corrispettivo economico." />
+        		</p:tab>
+        		<p:tab title="ADMIN E TECH">
+               		<h:outputText value="Gli Admin e i Tech sono figure professionali che hanno le stesse capacità del Registrar ma non ha diritti di modifica delle informazioni
+               		del dominio, essi operano per conto del Registrar." />
+        		</p:tab>
+    		</p:accordionPanel>
+		</p:outputPanel>
+	</p:dialog>
+</h:body>
+
+</html>

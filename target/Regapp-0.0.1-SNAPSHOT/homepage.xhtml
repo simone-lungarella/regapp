@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,107 +10,45 @@
 	
 </h:head>
 
-<h:body>
+<h:body style="background-image:url('image/1886943.png');background-position:center;">
 
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
 	<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
-	<link rel = "stylesheet" type = "text/css" href = "./css/menuBar.css"/>
-	<h:form>
-	
-		<p:panelGrid columns="5" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid, ui-grid-col-2 ui-fluid">
-			<p:selectOneButton unselectable="false">
-				<f:selectItem itemValue ="U" itemLabel="U" />
-				<f:selectItem itemValue ="D" itemLabel="D"/>
-			</p:selectOneButton>
-			
-			<p:commandButton value="Login" />
- 			<p:commandButton value="Ricerca" icon ="fa fa-search" onclick="PF('searchDialog').show();"/>
-			<p:commandButton value="Creazione" icon = "fa fa-paint-brush" onclick="PF('createDialog').show();"/>
-			<p:commandButton value="Modifica" icon = "fa fa-wrench" onclick="PF('editDialog').show();"/>
-		</p:panelGrid>
+	<link rel = "stylesheet" type = "text/css" href = "./css/base.css"/>
+	<h:form id="mainForm">
+		<center>
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4 ui-fluid" layout="grid">		
+				<p:commandButton style="width:480px;" icon="fa fa-user-edit" value="UTENTI" action="users.xhtml" />
+				<p:commandButton style="width:480px;" icon="fa fa-th-large" value="DOMINI" action="domains.xhtml"/>
+				<p:commandButton style="width:480px;" icon="fa fa-file" value="CONTRATTI" action="contracts.xhtml"/>
+			</p:panelGrid>
+		</center>
 		
-		<p:dialog header="Cerca dominio" widgetVar="searchDialog" resizable = "false" modal="true" style="widht:33%;height:30%;">
-			<h:form id="saveForm">
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Registrar" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Registrant" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col2">
-					<p:outputLabel value = "DNSSEC"/>
-					<p:selectBooleanCheckbox/>
-				</p:panelGrid>
-				<p:separator/>
-				<p:outputPanel>
-					<center>
-						<p:commandButton value = "Cerca" actionListener="#{contactBean.print}" process="@this" oncomplete="PF('searchDialog').hide();"/>
-						<p:commandButton value="Chiudi" onclick="PF('searchDialog').hide();"/>
-					</center>
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
+		<br/>
 		
-		<p:dialog header="Crea contatto" widgetVar="createDialog" resizable = "false" modal="true" style="widht:33%;height:30%;">
-			<h:form id="saveForm">
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid,ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText value="#{contactBean.firstName}" />
-					<p:outputLabel value = "Cognome"/>
-					<p:inputText value="#{contactBean.lastName}" />
-				</p:panelGrid>
-				<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid,ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Codice fiscale" />
-					<p:inputText value="#{contactBean.contactId}" />
-					<p:outputLabel value="Tipo del contatto" />
-					<p:selectOneMenu value="#{contactBean.contactTypeString}" >
-						<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
-					</p:selectOneMenu>
+		<center>
+			<p:panelGrid columns="3" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3 ui-fluid, ui-grid-col-6 ui-fluid ,ui-grid-col-3 ui-fluid" layout="grid">		
+				<p:outputPanel></p:outputPanel>
+				<p:outputPanel id="diagramDB">
 					
-				</p:panelGrid>
-				<p:separator/>
-				<center>
-					<p:commandButton value="Chiudi" onclick="PF('createDialog').hide();"/>
-					<p:commandButton id="saveButton" value="Salva" icon="fa fa-save" action="#{contactBean.saveContact}" oncomplete="PF('createDialog').hide();"/>				
-				</center>
-			</h:form>
-		</p:dialog>
-		
-		<p:dialog header="Modifica dominio" widgetVar="editDialog" resizable = "false" modal="true" style="widht:33%;height:30%;">
-			<h:form>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Nome" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Registrar" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col4 ui-fluid">
-					<p:outputLabel value="Registrant" />
-					<p:inputText />
-				</p:panelGrid>
-				<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col2, ui-grid-col2">
-					<p:outputLabel value = "DNSSEC"/>
-					<p:selectBooleanCheckbox/>
-				</p:panelGrid>
+					<p:panelGrid layout="grid" columns="1" columnClasses="ui-grid-col-12 ui-fluid" styleClass="ui-panelgrid-blank" >
+						<iframe width="710" height="515" src='https://dbdiagram.io/embed/5eedfc409ea313663b3ad2e5'> </iframe>
+					</p:panelGrid>
+					<p:panelGrid columns="1" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12 ui-fluid" layout="grid">
+						<p:commandButton value="VISUALIZZA DATABASE SU DBDIAGRAM.IO" disabled="true" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:panelGrid>
+		</center>
 				
-				<p:outputPanel>
-					<center>
-						<p:commandButton value = "Modifica"/>
-						<p:commandButton value="Chiudi" onclick="PF('editDialog').hide();"/>
-					</center>
-					
-				</p:outputPanel>
-			</h:form>
-		</p:dialog>
 	</h:form>
+	<center>
+		<p:outputPanel style="min-height:60px;width:100%;background-color:grey;float:bottom;"> 
+			<p:outputLabel style="float:right; padding:20px;" value="REGAPP by Simone Lungarella" />
+		</p:outputPanel>
+	</center>
+	
+	
 </h:body>
 
 </html>
