@@ -4,3 +4,5 @@ The Registro .it side is simulated with a persistence layer to save all the enti
 
 Is being used Primefaces in front end on a jsf-based web app and Spring and basic design patterns to handle the backend.
 The server is a InnoDB with mysql running on localhost. The dependencies are handled with Maven.
+
+Use the dnsentities.sql file to set up the database and run the queries
