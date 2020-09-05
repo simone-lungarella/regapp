@@ -90,6 +90,7 @@ public abstract class AbstractService implements Serializable {
 				connection.rollback();
 			}
 		} catch (SQLException e) {
+			System.out.println("Impossibile effettuare il rollback della transazione");
 		}
 	}
 

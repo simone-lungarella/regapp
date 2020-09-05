@@ -30,9 +30,5 @@ public class ContractBean extends EntityBean{
 		this.contract = contract;
 	}
 
-	public void test() {
-		System.out.println(contract.getDomain());
-		showInfoMessage("It works!");
-	}
 	
 }

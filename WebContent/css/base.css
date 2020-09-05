@@ -21,3 +21,7 @@ table.dataTable tbody tr.selected {
 .selectItemSize option{
 	width:100px;
 }
+
+.red_text{
+	color:red;
+}

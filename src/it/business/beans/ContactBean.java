@@ -47,13 +47,13 @@ public class ContactBean extends EntityBean{
 	}
 
 	/**
-	 * Questo metodo viene utilizzato per popolare la combobox per la selzione del tipo contatto
+	 * Questo metodo viene utilizzato per popolare la combobox per la selezione del tipo contatto
 	 * */
 	private void loadContactTypes() {
 		types = new ArrayList<ContactTypeEnum>();
 		ContactTypeEnum currType = null;
 		if(contactTypeString != null && !contactTypeString.isEmpty()) {
-			currType = ContactTypeEnum.valueOf(contactTypeString);
+			currType = ContactTypeEnum.valueOf(contactTypeString.toUpperCase());
 			types.add(currType);
 		}
 		for (ContactTypeEnum type : ContactTypeEnum.values()) {
@@ -123,9 +123,14 @@ public class ContactBean extends EntityBean{
 			searchedUsers = contactSRV.findByFirstName(searchedUser.getFirstName());
 		}else if(!searchedUser.getLastName().isEmpty()) {
 			searchedUsers = contactSRV.findByLastName(searchedUser.getLastName());
-		}else if(ContactTypeEnum.valueOf(contactTypeString) != null) {
+		}else if(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()) != null) {
 			searchedUsers = contactSRV.findByContactType(ContactTypeEnum.valueOf(contactTypeString.toUpperCase()));
 		}
+		
+		if(!searchedUsers.isEmpty())
+			showInfoMessage("La ricerca ha avuto un esito positivo");
+		else
+			showInfoMessage("La ricerca ha avuto un esito negativo");
 	}
 	
 	public void test() {
@@ -140,7 +145,7 @@ public class ContactBean extends EntityBean{
 		loadUsers();
 	}
 	
-	public void onRowSelect(SelectEvent event) {
+	public void onRowSelect(SelectEvent<?> event) {
 		selectedUser = (ContactDTO) event.getObject();
 		contact = new ContactDTO(selectedUser);
 		contactTypeString = contact.getContactType().toString();

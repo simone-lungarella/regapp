@@ -23,6 +23,7 @@ public abstract class AbstractDAO {
 					rs.close();
 				}
 			} catch (SQLException e) {
+				System.out.println("Errore riscontrato durante la chiusura del resultSet");
 			}
 		}
 		if (ps != null) {
@@ -31,6 +32,7 @@ public abstract class AbstractDAO {
 					ps.close();
 				}
 			} catch (SQLException e) {
+				System.out.println("Errore riscontrato durante la chiusura dello statement");
 			}
 		}
 	}
@@ -40,6 +42,7 @@ public abstract class AbstractDAO {
 			try {
 				rs.close();
 			} catch (SQLException e) {
+				System.out.println("Errore riscontrato durante la chiusura del resultSet");
 			}
 		}
 	}

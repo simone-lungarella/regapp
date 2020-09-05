@@ -39,12 +39,17 @@
 									<p:inputText value="#{domainBean.domainToVerify}" />
 									<p:outputLabel style="float:left;" value=".it" />
 								</p:panelGrid>
-								<p:commandButton style="width:200px;" value="Verifica" actionListener="#{domainBean.verifica}" update="dtDomainsWHOIS, messageFree" />
+								<p:commandButton style="width:200px;" value="Verifica" actionListener="#{domainBean.verifica}" update="dtDomainsWHOIS, messageFree, messageNotFree" />
 							</p:outputPanel>
 							
 							<p:outputPanel>
 								<h3> RICERCA WHOIS </h3>
-								<p:dataTable emptyMessage="Esegui una ricerca per verificare che il dominio sia disponibile" headerText="Risultati ricerca" rendered="#{not domainBean.free}" id="dtDomainsWHOIS" value="#{domainBean.tempDomains}" var="domain"  rows="1" >
+								
+								<p:outputPanel id="messageNotFree" >
+   									<p:outputLabel rendered="#{domainBean.notFree}" value="Dominio non disponibile, il dominio è già stato utilizzato." styleClass="red_text" />
+   								</p:outputPanel>
+								<br />
+								<p:dataTable emptyMessage="Esegui una ricerca per verificare che il dominio sia disponibile" headerText="Risultati ricerca" id="dtDomainsWHOIS" value="#{domainBean.tempDomains}" var="domain"  rows="1" >
         							<p:column style="text-align:center;" headerText="Dominio">
         								<h:outputText value="#{domain.domainName}" />
         							</p:column>
@@ -58,8 +63,9 @@
         								<h:outputText value="#{(domain.dnssec) ? 'Si' : 'No'}" />
         							</p:column>
    								</p:dataTable>
-   								<p:outputPanel id="messageFree" rendered="#{domainBean.free}">
-   									<p:outputLabel value="Dominio disponibile, puoi procedere alla creazione nella sezione successiva!" />
+   								<br/>
+   								<p:outputPanel id="messageFree" >
+   									<p:outputLabel styleClass="red_text" rendered="#{domainBean.free}" value="Dominio disponibile, puoi procedere alla creazione nella sezione di Creazione" />
    								</p:outputPanel>
 							</p:outputPanel>
 						</p:panelGrid>
@@ -133,8 +139,6 @@
 						<p:separator />
 						<h:outputText title="Request generata per la creazione del dominio" value="#{domainBean.createRequest}" />
 					</p:outputPanel>
-        		</p:tab>
-        		<p:tab title="Modifica">
         		</p:tab>
    			</p:tabView>
    		</center>

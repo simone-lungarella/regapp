@@ -84,7 +84,7 @@ public abstract class RequestMessageFactory implements MessageFactory{
 		secDNS_dsData.appendChild(alg);
 		Element digestType = buildGenericElementWithValue(doc, "secDNS", "digestType", String.valueOf((Math.random()*10/3)+1));
 		secDNS_dsData.appendChild(digestType);
-		Element digest = buildGenericElementWithValue(doc, "secDNS", "digest", GenericUtils.randomAlphaNumeric(40).toLowerCase());
+		Element digest = buildGenericElementWithValue(doc, "secDNS", "digest", GenericUtils.getDigest());
 		secDNS_dsData.appendChild(digest);
 		
 		return extension;

@@ -25,24 +25,25 @@
  
     	</p:toolbar>
 		<br style="visibility:hidden;"/>
+		
 		<center>
 		<p:tabView style="width:1200px;min-height:500px;" id="cmds" effect="blind">
     	    <p:tab title="Ricerca">
+    	    	<p:growl showDetail="true" sticky="false" severity="info" />
     	    	<br/>
-    	    	<p:panelGrid columns = "1" columnClasses="ui-grid-col-12 ui-fluid">
 				<h:form id="searchForm">
 					<p:growl showDetail="true" sticky="false" severity="info" />
 					
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
 						<p:outputLabel value="Nome" />
-						<p:inputText value="#{contactBean.contact.firstName}" />
+						<p:inputText value="#{contactBean.searchedUser.firstName}" />
 						<p:outputLabel value="Cognome" />
-						<p:inputText value="#{contactBean.contact.lastName}" />
+						<p:inputText value="#{contactBean.searchedUser.lastName}" />
 					</p:panelGrid>
 				
 					<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2, ui-grid-col-4 ui-fluid,ui-grid-col-2, ui-grid-col-4 ui-fluid">
 						<p:outputLabel value="Codice fiscale" />
-						<p:inputText  value="#{contactBean.contact.contactId}"/>
+						<p:inputText  value="#{contactBean.searchedUser.contactId}"/>
 						<p:outputLabel value="Tipo contatto"/>
 						<p:selectOneMenu value="#{contactBean.contactTypeString}" >
 							<f:selectItems value="#{contactBean.types}" var="type" itemValue="#{type.label}" itemLabel="#{type.label}" />
@@ -50,10 +51,9 @@
 					</p:panelGrid>
 					<p:separator style="visibility:hidden;"/>
 					<center>
-						<p:commandButton actionListener="#{contactBean.loadSearchedUsers}" value="Cerca" icon="fa fa-search" update="@form"/>				
+						<p:commandButton actionListener="#{contactBean.loadSearchedUsers}" value="Cerca" icon="fa fa-search" update="cmds:dtUsers"/>				
 					</center>
 				</h:form>
-				</p:panelGrid>
 				<p:separator/>
 				<p:outputPanel>
 					<p:dataTable headerText="Risultati ricerca" rendered="#{not empty contactBean.searchedUsers}" id="dtUsers" value="#{contactBean.searchedUsers}" var="user" paginator="true" rows="5" paginatorPosition="bottom" >

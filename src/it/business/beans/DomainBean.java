@@ -48,6 +48,7 @@ public class DomainBean extends EntityBean{
 	 * Variabile boolean che comunica lo stato del nome di dominio in fase di ricerca per un utilizzo (VERIFICA)
 	 * */
 	private boolean free;
+	private boolean NotFree;
 	
 	@Override
 	@PostConstruct
@@ -95,7 +96,7 @@ public class DomainBean extends EntityBean{
 		else showInfoMessage("Il codice fiscale deve avere 16 caratteri");
 	}
 	
-	public void onRegistrantSelect(SelectEvent event) {
+	public void onRegistrantSelect(SelectEvent<?> event) {
 		setRegistrant((ContactDTO) event.getObject());
 		
 	}
@@ -141,17 +142,19 @@ public class DomainBean extends EntityBean{
 	public void verifica() {
 		DomainDTO temp = domainSRV.findByDomainName("www." + getDomainToVerify() + ".it");
 		if(temp.getDomainName().isEmpty() || temp == null) {
+			setTempDomains(new ArrayList<>());
 			setFree(true);
-			setTempDomains(null);
+			setNotFree(false);
 		} else {
 			tempDomains = new ArrayList<>();
 			tempDomains.add(temp);
 			setTempDomains(tempDomains);
 			setFree(false);
+			setNotFree(true);
 		}
 	}
 	
-	public void onAdminSelect(SelectEvent event) {
+	public void onAdminSelect(SelectEvent<?> event) {
 		setAdmin((ContactDTO) event.getObject());
 	}
 	
@@ -266,6 +269,14 @@ public class DomainBean extends EntityBean{
 
 	public void setDomainToVerify(String domainToVerify) {
 		this.domainToVerify = domainToVerify;
+	}
+
+	public boolean isNotFree() {
+		return NotFree;
+	}
+
+	public void setNotFree(boolean notFree) {
+		NotFree = notFree;
 	}
 
 	
