@@ -12,15 +12,28 @@ import org.springframework.stereotype.Repository;
 import it.business.dao.AbstractDAO;
 import it.business.dao.IContractDAO;
 import it.business.dto.ContractDTO;
+
 /**
+ * DAO per la gestione dei contratti.
+ * 
  * @author Simone Lungarella
- * */
-
+ */
 @Repository
-public class ContractDAO extends AbstractDAO implements IContractDAO{
+public class ContractDAO extends AbstractDAO implements IContractDAO {
 
+	/**
+	 * Costante serial version UID.
+	 */
 	private static final long serialVersionUID = -7998466574893315972L;
 
+	/**
+	 * Restituisce il contratto identificato dal <code> contractNumber </code>.
+	 * 
+	 * @param connection     Connessione al database.
+	 * @param contractNumber Identificativo univoco del contratto.
+	 * @return Contratto recuperato se esiste un contratto con il numero
+	 *         specificato, <code> null </code> altrimenti.
+	 */
 	@Override
 	public ContractDTO findByContractNumber(Connection connection, int contractNumber) {
 		PreparedStatement ps = null;
@@ -48,6 +61,14 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 		return contract;
 	}
 
+	/**
+	 * Restituisce tutti i contratti sotto la supervisione del Registrar
+	 * identificato dal <code> idRegistrar </code>.
+	 * 
+	 * @param connection  Connessione al database.
+	 * @param idRegistrar Identificativo del Registrar.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContractDTO> findByRegistrar(Connection connection, String idRegistrar) {
 		List<ContractDTO> contracts = new ArrayList<>();
@@ -75,6 +96,14 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 		return contracts;
 	}
 
+	/**
+	 * Restituisce la lista dei contratti che si riferiscono al Registrant
+	 * identificato dal <code> idRegistrant </code>.
+	 * 
+	 * @param connection   Connessione al database.
+	 * @param idRegistrant Identificativo del Registrant.
+	 * @return ista dei contratti recuperati.
+	 */
 	@Override
 	public List<ContractDTO> findByRegistrant(Connection connection, String idRegistrant) {
 		List<ContractDTO> contracts = new ArrayList<>();
@@ -103,6 +132,12 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 		return contracts;
 	}
 
+	/**
+	 * Restituisce tutti i contatti configurati sul database.
+	 * 
+	 * @param connection Connessione al database.
+	 * @return Lista dei contratti esistenti sul database.
+	 */
 	@Override
 	public List<ContractDTO> findAll(Connection connection) {
 		List<ContractDTO> contracts = new ArrayList<>();
@@ -130,6 +165,13 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 		return contracts;
 	}
 
+	/**
+	 * Consente di rendere persistenti le informazioni sul contratto sulla base
+	 * dati.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param contract   Contratto da memorizzare.
+	 */
 	@Override
 	public void addContract(Connection connection, ContractDTO contract) {
 		PreparedStatement ps = null;
@@ -142,7 +184,7 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 			ps.setString(index++, contract.getRegistrant());
 			ps.setString(index++, contract.getAdmin());
 			ps.setString(index, contract.getDomain());
-			
+
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Errore riscontrato durante l'inserimento del nuovo contratto");
@@ -152,6 +194,12 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 		}
 	}
 
+	/**
+	 * Elimina il contratto identificato dal <code> contractNumber </code>.
+	 * 
+	 * @param connection     Connessione al database.
+	 * @param contractNumber Identificativo del contratto da eliminare.
+	 */
 	@Override
 	public void removeContractByNumber(Connection connection, int contractNumber) {
 		PreparedStatement ps = null;
@@ -169,6 +217,15 @@ public class ContractDAO extends AbstractDAO implements IContractDAO{
 		}
 	}
 
+	/**
+	 * Restituisce il contratto associato al dominio identificato dal
+	 * <code> domainName </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param domainName Identificativo del dominio.
+	 * @return Contratto recuperato dal database se esistente, <code> null </code>
+	 *         altrimenti.
+	 */
 	@Override
 	public ContractDTO findByDomainName(Connection connection, String domainName) {
 		PreparedStatement ps = null;

@@ -54,7 +54,10 @@ public abstract class RequestMessageFactory implements MessageFactory {
 	abstract String createDomain(DomainDTO domain, List<ContactDTO> contacts);
 
 	/**
+	 * Costruisce l'elemento root per il <code> document </code>.
 	 * 
+	 * @param document Documento in fase di costruzione.
+	 * @return Elemento root del protocollo EPP.
 	 */
 	@Override
 	public Element buildRootElement(Document document) {
@@ -71,6 +74,13 @@ public abstract class RequestMessageFactory implements MessageFactory {
 		return root;
 	}
 
+	/**
+	 * Crea e restituisce l'elemento <em> xml </em> per la richiesta di creazione
+	 * dominio.
+	 * 
+	 * @param doc Request in costruzione.
+	 * @return Elemento costruito che rispetta il protocollo EPP.
+	 */
 	@Override
 	public Element buildCreateDomainElement(Document doc) {
 		Element domainElement = doc.createElement("domain:create");
@@ -85,16 +95,30 @@ public abstract class RequestMessageFactory implements MessageFactory {
 		return domainElement;
 	}
 
+	/**
+	 * Costruisce un elemento generico impostandone il <code> value </code>.
+	 * 
+	 * @param doc      Request in costruzione.
+	 * @param entity   Entity del tag.
+	 * @param property Compone il tag se diversa da <code> null </code>.
+	 * @param value    Valore da impostare sull'elemento.
+	 * @return Elemento creato.
+	 */
 	@Override
 	public Element buildGenericElementWithValue(Document doc, String entity, String property, String value) {
-		// Se property è una stringa vuota allora il tag non sarà costituito da due
-		// parole ma solo dall'entity.
 		Element genericElement = doc.createElement(property.isEmpty() ? entity : (entity + ":" + property));
 		genericElement.appendChild(doc.createTextNode(value));
 
 		return genericElement;
 	}
 
+	/**
+	 * Crea e restituisce un elemento per l'estensione DNSSEC che va a completare la
+	 * request di creazione dominio.
+	 * 
+	 * @param doc Request in fase di costruzione.
+	 * @return Elemento costruito.
+	 */
 	@Override
 	public Element buildDnsSecExtension(Document doc) {
 		Element extension = doc.createElement("extension");

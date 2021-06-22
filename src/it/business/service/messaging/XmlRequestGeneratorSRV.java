@@ -14,18 +14,35 @@ import it.business.service.IContactSRV;
 import it.business.service.messaging.utils.RequestBuilder;
 
 /**
+ * Implementazione del servizio di creazione Request EPP per la corretta
+ * comunicazione con il Registro .it.
+ * 
  * @author Simone Lungarella
- * */
-
+ */
 @Service
 @Component
-public class XmlRequestGeneratorSRV extends AbstractService implements IXmlRequestGeneratorSRV{
+public class XmlRequestGeneratorSRV extends AbstractService implements IXmlRequestGeneratorSRV {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = 8931171031798205976L;
-	
+
+	/**
+	 * Servizio di gestione dei contatti per il recupero di informazioni.
+	 */
 	@Autowired
 	private IContactSRV contactSRV;
 
+	/**
+	 * Crea e restituisce una Request di creazione dominio a partire dalle entità
+	 * passate come parametri.
+	 * 
+	 * @param domain     Informazioni sul dominio da creare.
+	 * @param contactIds Contatti associati e referenziati tramite Id che
+	 *                   constituiscono i soggetti interessati al dominio.
+	 * @return Request generata per la comunicazione con il Registro .it.
+	 */
 	@Override
 	public String getCreateDomainXmlRequest(DomainDTO domain, List<String> contactIds) {
 		String xml = "";
@@ -45,15 +62,24 @@ public class XmlRequestGeneratorSRV extends AbstractService implements IXmlReque
 
 		return xml;
 	}
-	
+
+	/**
+	 * Crea e restituisce una Request di creazione dominio a partire dalle entità
+	 * passate come parametri.
+	 * 
+	 * @param domain     Informazioni sul dominio da creare.
+	 * @param contactIds Contatti associati e referenziati tramite Id che
+	 *                   constituiscono i soggetti interessati al dominio.
+	 * @return Request generata per la comunicazione con il Registro .it.
+	 */
 	@Override
 	public String getCreateDomainXmlRequest(DomainDTO domain, String... contactIds) {
 		List<String> ids = new ArrayList<>();
-		for(String id : contactIds) {
+		for (String id : contactIds) {
 			ids.add(id);
 		}
-		
+
 		return getCreateDomainXmlRequest(domain, ids);
 	}
-	
+
 }

@@ -14,19 +14,30 @@ import it.business.dto.ContactDTO;
 import it.business.enums.ContactTypeEnum;
 
 /**
- * @author Simone Lungarella 
- * Questo service permette di gestire tutte le operazioni sui contatti
+ * Questo service permette di gestire tutte le operazioni sui contatti.
+ * 
+ * @author Simone Lungarella
  */
-
 @Service
 @Component
 public class ContactSRV extends AbstractService implements IContactSRV {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = -1374170442695067665L;
 
+	/**
+	 * DAO per la gestione dei contatti sullo strato di persistenza.
+	 */
 	@Autowired
 	private IContactDAO contactDAO;
 
+	/**
+	 * Consente di memorizzare sulla base dati il contatto.
+	 * 
+	 * @param contactToSave Contatto da memorizzare.
+	 */
 	@Override
 	public void addContact(ContactDTO contactToSave) {
 		Connection connection = null;
@@ -41,6 +52,12 @@ public class ContactSRV extends AbstractService implements IContactSRV {
 		}
 	}
 
+	/**
+	 * Restituisce i contatti identificati dal <code> firstName </code>.
+	 * 
+	 * @param firstName Nome dei contatti da recuperare.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findByFirstName(String firstName) {
 		Connection connection = null;
@@ -58,6 +75,12 @@ public class ContactSRV extends AbstractService implements IContactSRV {
 		return contacts;
 	}
 
+	/**
+	 * Restituisce la lista dei contatti identificati dal <code> lastName </code>.
+	 * 
+	 * @param lastName Cognome dei contatti recuperati.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findByLastName(String lastName) {
 		Connection connection = null;
@@ -74,6 +97,12 @@ public class ContactSRV extends AbstractService implements IContactSRV {
 		return contacts;
 	}
 
+	/**
+	 * Restituisce tutti i contatti che appartengono ad una specifica tipologia.
+	 * 
+	 * @param contactType Tipologia dei contatti da recuperare.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findByContactType(ContactTypeEnum contactType) {
 		Connection connection = null;
@@ -90,6 +119,12 @@ public class ContactSRV extends AbstractService implements IContactSRV {
 		return contacts;
 	}
 
+	/**
+	 * Restituisce il contatto identificato dall' <code> id </code>.
+	 * 
+	 * @param id Identificativo del contatto recuperato.
+	 * @return Contatto recuperato.
+	 */
 	@Override
 	public ContactDTO findById(String id) {
 		Connection connection = null;
@@ -106,6 +141,11 @@ public class ContactSRV extends AbstractService implements IContactSRV {
 		return contact;
 	}
 
+	/**
+	 * Restituisce tutti i contatti esistenti sulla base dati.
+	 * 
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findAll() {
 		Connection connection = null;
@@ -121,6 +161,12 @@ public class ContactSRV extends AbstractService implements IContactSRV {
 		}
 		return contacts;
 	}
+
+	/**
+	 * Consente di eliminare dalla base dati il contatto identificato dall' <code> id </code>.
+	 * 
+	 * @param id Identificativo del contatto da eliminare.
+	 */
 	@Override
 	public void removeContact(String id) {
 		Connection connection = null;

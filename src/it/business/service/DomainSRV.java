@@ -13,18 +13,31 @@ import it.business.dao.IDomainDAO;
 import it.business.dto.DomainDTO;
 
 /**
+ * Servizio di gestione dei domini.
+ * 
  * @author Simone Lungarella
- * */
-
+ */
 @Service
 @Component
-public class DomainSRV extends AbstractService implements IDomainSRV{
+public class DomainSRV extends AbstractService implements IDomainSRV {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = -6139923363203091832L;
-	
+
+	/**
+	 * DAO per la gestione dei domini sullo strato di persistenza.
+	 */
 	@Autowired
 	private IDomainDAO domainDAO;
-	
+
+	/**
+	 * Restituisce il dominio identificato dal <code> domainName </code>.
+	 * 
+	 * @param domainName Nome dominio utilizzato come identificativo univoco.
+	 * @return Dominio recuperato.
+	 */
 	@Override
 	public DomainDTO findByDomainName(String domainName) {
 		Connection connection = null;
@@ -41,6 +54,13 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		return domain;
 	}
 
+	/**
+	 * Restituisce i domini associati al Registrant identificato dal
+	 * <code> registrant </code>.
+	 * 
+	 * @param registrant Identificativo del Registrant.
+	 * @return Lista dei domini recuperati.
+	 */
 	@Override
 	public List<DomainDTO> findByRegistrant(String registrant) {
 		Connection connection = null;
@@ -57,6 +77,13 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		return domains;
 	}
 
+	/**
+	 * Restituisce tutti i domini che hanno o meno l'estensione di sicurezza in base
+	 * al flag: <code> dnssec </code>.
+	 * 
+	 * @param dnssec Flag che identifica la sicurezza del dominio.
+	 * @return Lista dei domini.
+	 */
 	@Override
 	public List<DomainDTO> findBySecurity(boolean dnssec) {
 		Connection connection = null;
@@ -73,6 +100,11 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		return domains;
 	}
 
+	/**
+	 * Restituisce la lista di tutti i domini esistenti sulla base dati.
+	 * 
+	 * @return Lista dei domini recuperati.
+	 */
 	@Override
 	public List<DomainDTO> findAll() {
 		Connection connection = null;
@@ -89,7 +121,11 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		return domains;
 	}
 
-	// TODO: gestire il salvataggio del dominio tramite la creazione di tutti i contatti ad esso collegati
+	/**
+	 * Consente di memorizzare sulla base dati il dominio.
+	 * 
+	 * @param domainToSave Dominio da memorizzare.
+	 */
 	@Override
 	public void addDomain(DomainDTO domainToSave) {
 		Connection connection = null;
@@ -104,6 +140,12 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		}
 	}
 
+	/**
+	 * Consente di rimuovere in maniera definitiva il dominio identificato dal
+	 * <code> domainName </code>.
+	 * 
+	 * @param domainName Nome del dominio da rimuovere.
+	 */
 	@Override
 	public void removeDomain(String domainName) {
 		Connection connection = null;
@@ -116,7 +158,7 @@ public class DomainSRV extends AbstractService implements IDomainSRV{
 		} finally {
 			closeConnection(connection);
 		}
-		
+
 	}
 
 }

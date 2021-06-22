@@ -5,17 +5,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
+ * Classe abstract che gestisce tutte le operazioni comuni a tutti i DAO.
+ * 
  * @author Simone Lungarella
- * Questo DAO gestisce tutte le operazioni comuni a tutti i DAO
- * */
-
-
+ */
 public abstract class AbstractDAO {
 
+	/**
+	 * Chiude lo statemet <code> ps </code>.
+	 * 
+	 * @param ps Statement da chiudere.
+	 */
 	public final void closeStatement(final Statement ps) {
 		closeStatement(ps, null);
 	}
 
+	/**
+	 * Consente di chiudere uno statement ed un result set.
+	 * 
+	 * @param ps Statement da chiudere.
+	 * @param rs ResultSet da chiudere.
+	 */
 	public final void closeStatement(final Statement ps, final ResultSet rs) {
 		if (rs != null) {
 			try {
@@ -37,6 +47,11 @@ public abstract class AbstractDAO {
 		}
 	}
 
+	/**
+	 * Consente di chiudere il ResultSet: <code> rs </code>.
+	 * 
+	 * @param rs ResultSet da chiudere.
+	 */
 	public void closeResultset(final ResultSet rs) {
 		if (rs != null) {
 			try {

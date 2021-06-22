@@ -11,19 +11,33 @@ import org.springframework.stereotype.Service;
 
 import it.business.dao.IContractDAO;
 import it.business.dto.ContractDTO;
-/**
- * @author Simone Lungarella
- * */
 
+/**
+ * Servizio di gestione dei contratti.
+ * 
+ * @author Simone Lungarella
+ */
 @Service
 @Component
-public class ContractSRV extends AbstractService implements IContractSRV{
+public class ContractSRV extends AbstractService implements IContractSRV {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = 7586912192025747113L;
 
+	/**
+	 * DAO per la gestione dei contratti sullo strato di persistenza.
+	 */
 	@Autowired
 	private IContractDAO contractDAO;
 
+	/**
+	 * Restituisce il contratto identificato dal <code> contractNumber </code>.
+	 * 
+	 * @param contractNumber Numero identificativo del contratto.
+	 * @return Contratto recuperato.
+	 */
 	@Override
 	public ContractDTO findByContractNumber(int contractNumber) {
 		Connection connection = null;
@@ -40,6 +54,13 @@ public class ContractSRV extends AbstractService implements IContractSRV{
 		return contract;
 	}
 
+	/**
+	 * Restituisce il contratto associato al Registrar identificato dal
+	 * <code> registrar </code>.
+	 * 
+	 * @param registrar Identificativo del Registrar.
+	 * @return Lista dei contratti recuperati.
+	 */
 	@Override
 	public List<ContractDTO> findByRegistrar(String registrar) {
 		Connection connection = null;
@@ -56,6 +77,13 @@ public class ContractSRV extends AbstractService implements IContractSRV{
 		return contracts;
 	}
 
+	/**
+	 * Restituisce la lista dei contratti associati al Registrant identificato dal
+	 * <code> registrant </code>.
+	 * 
+	 * @param registrant Identificativo del Registrant.
+	 * @return Lista dei contratti recuperati.
+	 */
 	@Override
 	public List<ContractDTO> findByRegistrant(String registrant) {
 		Connection connection = null;
@@ -72,6 +100,13 @@ public class ContractSRV extends AbstractService implements IContractSRV{
 		return contracts;
 	}
 
+	/**
+	 * Restituisce il contratto che gestisce il dominio identificato dal
+	 * <code> domainName </code>.
+	 * 
+	 * @param domainName Nome del dominio.
+	 * @return Contratto recuperato.
+	 */
 	@Override
 	public ContractDTO findByDomainName(String domainName) {
 		Connection connection = null;
@@ -88,6 +123,11 @@ public class ContractSRV extends AbstractService implements IContractSRV{
 		return contract;
 	}
 
+	/**
+	 * Consente di rendere persistente il contratto sulla base dati.
+	 * 
+	 * @param contract Contratto da memorizzare.
+	 */
 	@Override
 	public void addContract(ContractDTO contract) {
 		Connection connection = null;
@@ -102,6 +142,12 @@ public class ContractSRV extends AbstractService implements IContractSRV{
 		}
 	}
 
+	/**
+	 * Consente di eliminare il contratto identificato dal
+	 * <code> contractNumber </code>.
+	 * 
+	 * @param contractNumber Identificativo del contratto.
+	 */
 	@Override
 	public void removeContract(int contractNumber) {
 		Connection connection = null;
@@ -114,9 +160,14 @@ public class ContractSRV extends AbstractService implements IContractSRV{
 		} finally {
 			closeConnection(connection);
 		}
-		
+
 	}
 
+	/**
+	 * Recupera la lista dei contratti esistenti sul database.
+	 * 
+	 * @return Lista dei contratti recuperati.
+	 */
 	@Override
 	public List<ContractDTO> findAll() {
 		Connection connection = null;

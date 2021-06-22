@@ -135,7 +135,7 @@
 						</p:panelGrid>
 					</center>
 						
-					<p:outputPanel id="requestId" rendered="#{domainBean.existingRequest}" style="max-heigth:200px; overflow-y:auto;">
+					<p:outputPanel id="requestId" rendered="#{domainBean.existingRequest}" style="max-height:200px; overflow-y:auto;">
 						<p:separator />
 						<h:outputText title="Request generata per la creazione del dominio" value="#{domainBean.createRequest}" />
 					</p:outputPanel>
@@ -145,7 +145,7 @@
    	</h:form>
 	<br/><br/><br/><br/><br/><br/>
 	<p:dialog hideEffect="clip" widgetVar="infoDomainDialog" modal="true">
-		<p:outputPanel style="min-heigth:700px;width:700px;">
+		<p:outputPanel style="min-height:700px;width:700px;">
 			<center>
 				<p:outputLabel style="font-weight: bold;" value="Dominio .it e edu.it." />
 			</center>
@@ -158,7 +158,7 @@
 	</p:dialog>
 	<p:dialog header="Selezione Registrant del dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="pickRegistrantDialog">
 		<center>
-			<p:outputPanel style="min-heigth:700px;width:700px;">
+			<p:outputPanel style="min-height:700px;width:700px;">
 				<p:dataTable headerText="Registrant esistenti" id="dtRegistrants" value="#{domainBean.registrants}" var="user" paginator="true" rows="5" paginatorPosition="bottom"
 					selectionMode="single" rowKey="#{user.contactId}" >
    					<p:ajax event="rowSelect" listener="#{domainBean.onRegistrantSelect}" />
@@ -181,7 +181,7 @@
 	</p:dialog>
 	<p:dialog header="Selezione Admin del dominio" showEffect="clip" hideEffect="clip" modal="true" widgetVar="pickAdminDialog">
 		<center>
-			<p:outputPanel style="min-heigth:700px;width:700px;">
+			<p:outputPanel style="min-height:700px;width:700px;">
 				<p:dataTable headerText="Admin esistenti" id="dtAdmins" value="#{domainBean.admins}" var="user" paginator="true" rows="5" paginatorPosition="bottom"
 					selectionMode="single" rowKey="#{user.contactId}" >
    					<p:ajax event="rowSelect" listener="#{domainBean.onAdminSelect}" />

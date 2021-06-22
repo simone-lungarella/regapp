@@ -15,15 +15,25 @@ import it.business.dto.ContactDTO;
 import it.business.enums.ContactTypeEnum;
 
 /**
- * @author Simone Lungarella
+ * Dao per la gestione dei contatti.
  * 
- * */
-
+ * @author Simone Lungarella
+ */
 @Repository
 public class ContactDAO extends AbstractDAO implements IContactDAO {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = -9110222349730022857L;
 
+	/**
+	 * Recupera i contatti identificati dal <code> firstName </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param firstName  Nome dei contatti da recuperare.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findByFirstName(Connection connection, String firstName) {
 		List<ContactDTO> contacts = new ArrayList<>();
@@ -52,6 +62,13 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 		return contacts;
 	}
 
+	/**
+	 * Recupera i contatti identificati dal <code> lastName </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param lastName   Cognome dei contatti da recuperare.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findByLastName(Connection connection, String lastName) {
 		List<ContactDTO> contacts = new ArrayList<>();
@@ -79,6 +96,13 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 		return contacts;
 	}
 
+	/**
+	 * Recupera tutti i contatti del tipo specificato.
+	 * 
+	 * @param connection  Connessione al database.
+	 * @param contactType Tipologia dei contatti da recuperare.
+	 * @return Lista dei contatti recuperati.
+	 */
 	@Override
 	public List<ContactDTO> findByContactType(Connection connection, ContactTypeEnum contactType) {
 		List<ContactDTO> contacts = new ArrayList<>();
@@ -107,6 +131,14 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 		return contacts;
 	}
 
+	/**
+	 * Recupera e restituisce il contatto identificato univocamente dall'
+	 * <code> id </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param id         Identificativo del contatto da recuperare.
+	 * @return Contatto recuperato.
+	 */
 	@Override
 	public ContactDTO findById(Connection connection, String id) {
 		PreparedStatement ps = null;
@@ -134,8 +166,14 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 
 	}
 
+	/**
+	 * Recupera e restituisce tutti i contatti esistenti sulla base dati.
+	 * 
+	 * @param connection Connessione al database.
+	 * @return Lista dei contatti esistenti.
+	 */
 	@Override
-	public List<ContactDTO> findAll(Connection connection){
+	public List<ContactDTO> findAll(Connection connection) {
 		List<ContactDTO> contacts = new ArrayList<>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -159,7 +197,13 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 		}
 		return contacts;
 	}
-	
+
+	/**
+	 * Rende persistente il contatto e le sue informazioni sulla base dati.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param contact    Contatto da memorizzare.
+	 */
 	@Override
 	public void addContact(Connection connection, ContactDTO contact) {
 		PreparedStatement ps = null;
@@ -181,6 +225,13 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 		}
 	}
 
+	/**
+	 * Elimina in maniera permanente il contatto identificato dall'
+	 * <code> id </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param id         Identificativo del contatto da eliminare.
+	 */
 	@Override
 	public void removeById(Connection connection, String id) {
 		PreparedStatement ps = null;
@@ -198,6 +249,13 @@ public class ContactDAO extends AbstractDAO implements IContactDAO {
 		}
 	}
 
+	/**
+	 * Effettua un aggiornamento del contatto impostandone i parametri specificati
+	 * dal DTO.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param newContact Contatto aggiornato.
+	 */
 	@Override
 	public void update(Connection connection, ContactDTO newContact) {
 		PreparedStatement ps = null;

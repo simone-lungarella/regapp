@@ -14,15 +14,25 @@ import it.business.dao.IDomainDAO;
 import it.business.dto.DomainDTO;
 
 /**
- * @author Simone Lungarella
+ * DAO che gestisce i domini.
  * 
+ * @author Simone Lungarella
  */
-
 @Repository
 public class DomainDAO extends AbstractDAO implements IDomainDAO {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = 1221220226271838975L;
 
+	/**
+	 * Restituisce il dominio identificato dal <code> domainName </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param domainName Identificativo del dominio.
+	 * @return Dominio recuperato dal database.
+	 */
 	@Override
 	public DomainDTO findByDomainName(Connection connection, String domainName) {
 		PreparedStatement ps = null;
@@ -49,6 +59,14 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		return domain;
 	}
 
+	/**
+	 * Restituisce la lista dei domini che si riferiscono al Registrant identificato
+	 * dal <code> idRegistrant </code>.
+	 * 
+	 * @param connection   Connessione al database.
+	 * @param idRegistrant Identificativo del Registrant.
+	 * @return Lista dei domini recuperati.
+	 */
 	@Override
 	public List<DomainDTO> findByRegistrant(Connection connection, String idRegistrant) {
 		List<DomainDTO> domains = new ArrayList<>();
@@ -76,6 +94,15 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		return domains;
 	}
 
+	/**
+	 * Restituisce tutti i domini in base all'estensione di sicurezza stabilita dal
+	 * flag: <code> isSafe </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param isSafe     Se <code> true </code> indica che i domini ricercati devono
+	 *                   avere l'estensione di sicurezza.
+	 * @return Lista dei domini recuperati.
+	 */
 	@Override
 	public List<DomainDTO> findBySecurity(Connection connection, boolean isSafe) {
 		List<DomainDTO> domains = new ArrayList<>();
@@ -103,6 +130,12 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		return domains;
 	}
 
+	/**
+	 * Restituisce tutti i domini esistenti sul dominio.
+	 * 
+	 * @param connection Connessione al database.
+	 * @return Lista dei domini recuperati.
+	 */
 	@Override
 	public List<DomainDTO> findAll(Connection connection) {
 		List<DomainDTO> domains = null;
@@ -131,6 +164,12 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		return domains;
 	}
 
+	/**
+	 * Consente di rendere persistenti le informazioni sul dominio.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param domain     Dominio da memorizzare sulla base dati.
+	 */
 	@Override
 	public void addDomain(Connection connection, DomainDTO domain) {
 		PreparedStatement ps = null;
@@ -143,7 +182,7 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 			ps.setString(index++, domain.getAdmin());
 			ps.setString(index++, domain.getRegistrant());
 			ps.setBoolean(index++, domain.isDnssec());
-			
+
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Errore riscontrato durante l'inserimento del nuovo dominio");
@@ -151,9 +190,16 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		} finally {
 			closeStatement(ps);
 		}
-		
+
 	}
 
+	/**
+	 * Elimina dalla base dati il dominio identificato dal
+	 * <code> domainName </code>.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param domainName Identificativo del dominio da eliminare.
+	 */
 	@Override
 	public void removeByDomainName(Connection connection, String domainName) {
 		PreparedStatement ps = null;
@@ -171,6 +217,13 @@ public class DomainDAO extends AbstractDAO implements IDomainDAO {
 		}
 	}
 
+	/**
+	 * Effettua un aggiornamento di un dominio modificandone le proprietà non
+	 * identificative.
+	 * 
+	 * @param connection Connessione al database.
+	 * @param domain     Dominio aggiornato.
+	 */
 	@Override
 	public void update(Connection connection, DomainDTO domain) {
 		PreparedStatement ps = null;
