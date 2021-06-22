@@ -30,7 +30,7 @@ public interface IContactDAO extends Serializable {
 
 	/**
 	 * Questo metodo consente la modifica di un Contact, le modifiche possono essere fatte su nome, cognome, e tipo_contatto.
-	 * Non è possibile modificare l'id di un contatto perché esso rappresenterebbe un altro contatto
+	 * Non Ã¨ possibile modificare l'id di un contatto perchï¿½ esso rappresenterebbe un altro contatto
 	 * */
 	void update (Connection connection, ContactDTO newContact);
 }

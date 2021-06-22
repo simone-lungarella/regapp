@@ -12,22 +12,32 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Simone Lungarella
+ * Service che viene esteso da tutti i service che verranno utilizzati,
+ * implementa tutto ci√≤ di cui hanno bisogno i services.
  * 
- *         Service che viene esteso da tutti i service che verranno utilizzati,
- *         implementa tutto ciÚ di cui hanno bisogno i services
+ * @author Simone Lungarella
  */
-
 @Service
 @Component
 public abstract class AbstractService implements Serializable {
 
+	/**
+	 * La costante serial version UID.
+	 */
 	private static final long serialVersionUID = -2017286881829397007L;
 
+	/**
+	 * Data source per il raggiungimento del Database.
+	 */
 	@Autowired
 	@Qualifier("DataSource")
 	private DataSource dataSource;
 
+	/**
+	 * Restituisce il datasource.
+	 * 
+	 * @return DataSource.
+	 */
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -35,7 +45,7 @@ public abstract class AbstractService implements Serializable {
 	/**
 	 * Consente di creare una connessione scegliendo da una tipologia che prevede
 	 * l'auto commit ad ogni operazione e una strategia che consente di effettuare
-	 * il commit manuale o il rollback delle azioni a seconda della necessit‡
+	 * il commit manuale o il rollback delle azioni a seconda della necessit√†.
 	 */
 	protected final Connection setupConnection(final Connection connection, final Boolean inTransactionActive)
 			throws SQLException {
@@ -46,6 +56,11 @@ public abstract class AbstractService implements Serializable {
 		return connection;
 	}
 
+	/**
+	 * Esegue la chiusura della connessione.
+	 * 
+	 * @param connection Connessione da chiudere.
+	 */
 	public final void closeConnection(final Connection connection) {
 		try {
 			if (connection != null && !connection.isClosed()) {
@@ -56,6 +71,11 @@ public abstract class AbstractService implements Serializable {
 		}
 	}
 
+	/**
+	 * Esegue il commit della connessione chiudendo la transazione.
+	 * 
+	 * @param connection Connessione da committare.
+	 */
 	public final void closeTransaction(final Connection connection) {
 		try {
 			if (connection != null && !connection.isClosed()) {
@@ -68,8 +88,10 @@ public abstract class AbstractService implements Serializable {
 	}
 
 	/**
-	 * Se la connessione non Ë stata gestita con auto commit, occorre utilizzare questo metodo per farlo manualmente
-	 * */
+	 * Esegue il commit della connessione chiudendola infine.
+	 * 
+	 * @param connection Connessione da committare.
+	 */
 	public final void commitConnection(final Connection connection) throws SQLException {
 		try {
 			if (connection != null && !connection.isClosed()) {
@@ -81,9 +103,12 @@ public abstract class AbstractService implements Serializable {
 	}
 
 	/**
-	 * Se le modifiche apportate al db non superano una determinata condizione ed occorre annullare tutte le modifiche effettuate
-	 * dall'ultimo commit, occorre chiamare questa funzione per effettuare il rollback delle operazioni
-	 * */
+	 * Se le modifiche apportate al db non superano una determinata condizione ed
+	 * occorre annullare tutte le modifiche effettuate dall'ultimo commit, occorre
+	 * chiamare questa funzione per effettuare il rollback delle operazioni.
+	 * 
+	 * @param connection Connessione su cui effettuare il rollback.
+	 */
 	public final void rollbackConnection(final Connection connection) {
 		try {
 			if (connection != null && !connection.isClosed()) {

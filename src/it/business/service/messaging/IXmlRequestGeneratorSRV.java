@@ -8,7 +8,7 @@ import it.business.dto.DomainDTO;
  * @author Simone Lungarella
  * */
 
-public interface IXmlRequestGeneratorSRV extends IXMLGeneratorSRV{
+public interface IXmlRequestGeneratorSRV extends IXmlGeneratorSRV{
 	
 	String getCreateDomainXmlRequest(DomainDTO domain, List<String> contactIds);
 	

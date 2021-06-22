@@ -65,4 +65,4 @@ INSERT INTO contracts(registrar, registrant, admin, domainName)
 		('RCCRCC90A01A111A', 'AGGRCC90A01A111A', 'RSARCC90A01A111A', 'www.notSec.it')
 );
 
--- NB: Tutte le tabelle rispettano i vincoli di integrità referenziali anche in vista di eventuali foreign key come detto precedentemente
+-- NB: Tutte le tabelle rispettano i vincoli di integrità referenziali anche in vista di eventuali foreign key.

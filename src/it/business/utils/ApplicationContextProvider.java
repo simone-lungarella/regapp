@@ -7,11 +7,16 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+/**
+ * Utility class per la gestione del context dell'applicazione.
+ * 
+ * @author Simone Lungarella
+ */
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware {
 
 	/**
-	 * Application context.
+	 * Context dell'applicazione.
 	 */
 	private static ApplicationContext context;
 
@@ -21,9 +26,9 @@ public class ApplicationContextProvider implements ApplicationContextAware {
 	private static Object lock = new Object();
 
 	/**
-	 * Setter application context.
+	 * Imposta il context dell'applicazione.
 	 *
-	 * @param ctx the new application context
+	 * @param ctx Context da impostare.
 	 */
 	@Override
 	public final void setApplicationContext(final ApplicationContext ctx) {
@@ -33,23 +38,28 @@ public class ApplicationContextProvider implements ApplicationContextAware {
 	}
 	
 	/**
-	 * Getter application context.
+	 * Restituisce il context dell'applicazione.
 	 * 
-	 * @return	application context
+	 * @return Application Context.
 	 */
 	public static ApplicationContext getApplicationContext() {
 		return context;
 	}
 
 	/**
-	 * Setter del contesto.
-	 * 
-	 * @param ctx	contesto
+	 * Imposta il context dell'applicazione.
+	 *
+	 * @param ctx Context da impostare.
 	 */
 	public static void setApplicationContextForTestPurpose(final ApplicationContext ctx) {
 		context = ctx;
 	}
 
+	/**
+	 * Imposta il context dell'applicazione.
+	 *
+	 * @param ctx Context da impostare.
+	 */
 	public static void setApplicationContext(final ServletContextEvent event) {
 		context = WebApplicationContextUtils.getWebApplicationContext(event.getServletContext());
 	}
