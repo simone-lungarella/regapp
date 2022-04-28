@@ -1,5 +1,5 @@
 <h1 align="center">Regapp</h1>
-<h3 align="center">Simple interactive User Interface</h3>
+<h3 align="center">Simple interactive UI as showacase of Registrar activities</h3>
 
 <p align="center" >
   <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" />
